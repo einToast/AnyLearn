@@ -15,10 +15,10 @@ public class Folder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long folderId;
+    private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "folderId", fetch = FetchType.EAGER)
-    private List<Card> cardId;
+    @OneToMany(mappedBy = "folder", fetch = FetchType.EAGER)
+    private List<Card> cards;
 }

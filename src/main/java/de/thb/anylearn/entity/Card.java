@@ -15,7 +15,7 @@ public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cardId;
+    private Long id;
 
     private String question;
 
@@ -25,5 +25,5 @@ public class Card {
     private Date nextTime;
 
     @ManyToOne
-    private Folder folderId;
+    private Folder folder;
 }

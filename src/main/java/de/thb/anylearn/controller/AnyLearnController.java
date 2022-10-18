@@ -15,15 +15,13 @@ public class AnyLearnController {
     /**
      * http://localhost:8080/
      *
-     * @param model
-     * @return
+     * @param model does something
+     * @return String for html
      */
     @GetMapping()
     public String startPage(Model model) {
-        // so gehts nicht:
-        // model.addAttribute("cards1", deskService.getAllCard());
 
-        // ohne geht es aber
+        model.addAttribute("cards1", deskService.getAllCard());
 
 
         return "cards";

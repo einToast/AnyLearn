@@ -17,5 +17,6 @@ public class DeskService {
     private FolderRepository folderRepository;
 
     public List<Card> getAllCard(){
-        return (List<Card>) cardRepository.findAll();}
+        return (List<Card>) cardRepository.findAll();
     }
+}
