@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xml:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Alle Lernkarten</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <h2>Lernkarten</h2>
+    <ul>
+      <li th:each="card: ${cards1}">
+        <span th:text="${card.question}"></span>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
