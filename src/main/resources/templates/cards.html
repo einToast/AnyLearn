@@ -3,8 +3,8 @@
       layout:decorate="~{layout}">
 <head>
   <meta charset="UTF-8">
-  <link href="css/cards.css" rel="stylesheet" type="text/css">
   <title>Alle Lernkarten</title>
+  <link th:href="@{/css/cards.css}" rel="stylesheet" />
 </head>
 <body>
   <div layout:fragment="content">
@@ -14,7 +14,7 @@
 <!--        <span th:text="${card.question}"></span>-->
 <!--      </li>-->
 <!--    </ul>-->
-    <table id="test">
+    <table id="test" >
       <tr>
         <th>question</th>
         <th>answer</th>
