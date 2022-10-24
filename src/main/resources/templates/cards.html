@@ -8,11 +8,21 @@
 <body>
   <div layout:fragment="content">
     <h1>Lernkarten</h1>
-    <ul>
-      <li th:each="card: ${cards1}">
-        <span th:text="${card.question}"></span>
-      </li>
-    </ul>
+<!--    <ul>-->
+<!--      <li th:each="card: ${cards1}">-->
+<!--        <span th:text="${card.question}"></span>-->
+<!--      </li>-->
+<!--    </ul>-->
+    <table>
+      <tr>
+        <th>question</th>
+        <th>answer</th>
+      </tr>
+      <tr th:each="card: ${cards1}">
+        <td th:text="${card.question}"></td>
+        <td th:text="${card.answer}"></td>
+      </tr>
+    </table>
   </div>
   <a th:href="@{/}">Zurück</a>
 </body>
