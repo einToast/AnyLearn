@@ -18,13 +18,25 @@ public class AnyLearnController {
      * @param model does something
      * @return String for html
      */
-    @GetMapping()
-    public String startPage(Model model) {
+    @GetMapping("cards")
+    public String allCards(Model model) {
 
         model.addAttribute("cards1", deskService.getAllCard());
 
 
         return "cards";
+    }
+
+    /**
+     * http://localhost:8080/
+     *
+     * @param model does something
+     * @return String for html
+     */
+    @GetMapping()
+    public String startPage(Model model) {
+
+        return "home";
     }
 
 }
