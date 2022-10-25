@@ -10,5 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class AnyLearnFormModel {
-    private String name;
+
+
+
+    private int folderId = 0;
 }

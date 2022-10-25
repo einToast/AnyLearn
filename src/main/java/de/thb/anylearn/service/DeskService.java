@@ -1,6 +1,7 @@
 package de.thb.anylearn.service;
 
 import de.thb.anylearn.entity.Card;
+import de.thb.anylearn.entity.Folder;
 import de.thb.anylearn.repository.CardRepository;
 import de.thb.anylearn.repository.FolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,17 @@ public class DeskService {
 
     public List<Card> getAllCard(){
         return (List<Card>) cardRepository.findAll();
+    }
+
+    public List<Folder> getAllFolder() {
+        return (List<Folder>) folderRepository.findAll();
+    }
+
+    public List<Card> getFilteredCard(int folderId) {
+        if (folderId == 0){
+            return getAllCard();
+        } else {
+            return (List<Card>) cardRepository.findAllByFolderId(folderId);
+        }
     }
 }
