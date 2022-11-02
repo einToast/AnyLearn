@@ -27,8 +27,18 @@ public class AnyLearnController {
      */
     @GetMapping("show/folder={id}_cat={categories}")
     public String getCards(@PathVariable("id") int id, @PathVariable("categories") String categories, Model model, AnyLearnFormModel form) {
+        int[] cat = null;
+        if(!categories.equals("")) {
+            String[] parts = categories.split("-");
+            cat = new int [parts.length];
 
-        model.addAttribute("cards1", deskService.getFilteredCard(id));
+            for(int i = 0; i < parts.length; i++) {
+                System.out.print(parts[i]);
+                //TODO: Exception Handling if parts[i] not Integer
+                cat[i] = Integer.parseInt(parts[i]);
+            }
+        }
+        model.addAttribute("cards1", deskService.getFilteredCard(id, cat));
         model.addAttribute("folder1", deskService.getAllFolder());
         model.addAttribute("category1", deskService.getAllCategory());
         model.addAttribute("formula", id);

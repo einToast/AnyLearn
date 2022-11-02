@@ -34,11 +34,21 @@ public class DeskService {
         return (List<Category>) categoryRepository.findAll();
     }
 
-    public List<Card> getFilteredCard(int folderId) {
+    public List<Card> getFilteredCard(int folderId, int[] cat) {
         if (folderId == 0){
-            return getAllCard();
+            if (cat == null) {
+                return getAllCard();
+            } else {
+                return null;
+                //return cardRepository.findAllByCategoriesId(cat);
+            }
         } else {
-            return cardRepository.findAllByFolderId(folderId);
+            if (cat == null) {
+                return cardRepository.findAllByFolderId(folderId);
+            } else {
+                return null;
+                //return cardRepository.findAllByFolderCategoryId(folderId, cat);
+            }
         }
     }
 }
