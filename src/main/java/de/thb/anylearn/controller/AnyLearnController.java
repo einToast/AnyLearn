@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Arrays;
+
 @Controller
 public class AnyLearnController {
 
@@ -23,8 +25,8 @@ public class AnyLearnController {
      * @param model does something
      * @return String for html
      */
-    @GetMapping("folder/{id}")
-    public String allCards(@PathVariable("id") int id, Model model, AnyLearnFormModel form) {
+    @GetMapping("show/folder={id}_cat={categories}")
+    public String getCards(@PathVariable("id") int id, @PathVariable("categories") String categories, Model model, AnyLearnFormModel form) {
 
         model.addAttribute("cards1", deskService.getFilteredCard(id));
         model.addAttribute("folder1", deskService.getAllFolder());
@@ -41,10 +43,37 @@ public class AnyLearnController {
      * @param model does something
      * @return String for html
      */
-    @PostMapping("folder/{id}")
-    public RedirectView filteredCardsByFolder(Model model, AnyLearnFormModel form) {
+    @PostMapping("show/folder={id}_cat={categories}")
+    public RedirectView postCards(Model model, AnyLearnFormModel form) {
+        String cat = "cat=";
+        if(form.getCategoryId() != null) {
+            for (int a : form.getCategoryId()) {
+                cat += String.valueOf(a) + "-";
+            }
+        } else {
+            //cat += "0";
+        }
+        return new RedirectView("/show/folder="+form.getFolderId() + "_" + cat);
+    }
 
-        return new RedirectView("/folder/"+form.getFolderId());
+    @PostMapping("show")
+    public RedirectView allCardsPost(Model model, AnyLearnFormModel form) {
+        String cat = "cat=";
+        if(form.getCategoryId() != null) {
+            for (int a : form.getCategoryId()) {
+                cat += String.valueOf(a) + "-";
+            }
+        }else {
+            //cat += "0";
+        }
+        return new RedirectView("/show/folder="+form.getFolderId() + "_" + cat);
+    }
+    @GetMapping("show")
+    public String allCardsGet(Model model, AnyLearnFormModel form) {
+        model.addAttribute("cards1", deskService.getAllCard());
+        model.addAttribute("folder1", deskService.getAllFolder());
+        model.addAttribute("formula", 0);
+        return "cards";
     }
 
     /**

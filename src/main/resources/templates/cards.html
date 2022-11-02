@@ -19,6 +19,10 @@
             <option th:each="folder: ${folder1}" th:value="${folder.id}" th:text="${folder.name}"
                     th:selected="${formula eq folder.id}"></option>
         </select>
+        <label for="category">Choose a Category:</label>
+        <select name="categoryId" id="category" multiple="multiple">
+            <option th:each="folder: ${folder1}" th:value="${folder.id}" th:text="${folder.name}"></option>
+        </select>
         <input type="submit" value="Filtern">
     </form>
 
