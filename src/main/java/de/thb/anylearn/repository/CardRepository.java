@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-@RepositoryDefinition(domainClass = Card.class, idClass = Long.class)
-public interface CardRepository extends CrudRepository<Card, Long> {
+@RepositoryDefinition(domainClass = Card.class, idClass = Integer.class)
+public interface CardRepository extends CrudRepository<Card, Integer> {
 
 
     @Query("SELECT c FROM Card c WHERE c.folder.id = :folderId")

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,4 +27,7 @@ public class Card {
 
     @ManyToOne
     private Folder folder;
+
+    @OneToMany(mappedBy = "card", fetch = FetchType.EAGER)
+    private List<CardCategory> cardCategories;
 }

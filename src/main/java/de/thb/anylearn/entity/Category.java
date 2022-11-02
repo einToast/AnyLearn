@@ -3,6 +3,8 @@ package de.thb.anylearn.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -10,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @ToString
 @Entity
-public class Category {
+public class Category implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +20,6 @@ public class Category {
 
     private String name;
 
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    private List<CardCategory> cardCategories;
 }
