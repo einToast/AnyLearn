@@ -30,6 +30,7 @@ public class AnyLearnController {
 
         model.addAttribute("cards1", deskService.getFilteredCard(id));
         model.addAttribute("folder1", deskService.getAllFolder());
+        model.addAttribute("category1", deskService.getAllCategory());
         model.addAttribute("formula", id);
 
         return "cards";
@@ -70,8 +71,10 @@ public class AnyLearnController {
     }
     @GetMapping("show")
     public String allCardsGet(Model model, AnyLearnFormModel form) {
+        // TODO: Redirect auf / ausführen der Funktion getCards für Kontinuität
         model.addAttribute("cards1", deskService.getAllCard());
         model.addAttribute("folder1", deskService.getAllFolder());
+        model.addAttribute("category1", deskService.getAllCategory());
         model.addAttribute("formula", 0);
         return "cards";
     }

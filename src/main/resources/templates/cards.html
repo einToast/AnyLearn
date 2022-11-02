@@ -21,7 +21,7 @@
         </select>
         <label for="category">Choose a Category:</label>
         <select name="categoryId" id="category" multiple="multiple">
-            <option th:each="folder: ${folder1}" th:value="${folder.id}" th:text="${folder.name}"></option>
+            <option th:each="category: ${category1}" th:value="${category.id}" th:text="${category.name}"></option>
         </select>
         <input type="submit" value="Filtern">
     </form>
