@@ -35,10 +35,14 @@
         <tr>
             <th>question</th>
             <th>answer</th>
+            <th>folder</th>
+            <th>category</th>
         </tr>
         <tr th:each="card: ${cards1}">
             <td th:text="${card.question}"></td>
             <td th:text="${card.answer}"></td>
+            <td th:text="${card.folder.name}"></td>
+            <td><div th:each="cardcat: ${card.cardCategories}" th:text="${cardcat?.category.name}"></div></td>
         </tr>
     </table>
 </div>

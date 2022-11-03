@@ -48,23 +48,43 @@ public class DeskService {
                 //return null;
                 //return cardRepository.findAllByCategoriesId(cat);
                 return getFilteredByCategory(cats).stream().map(CardCategory::getCard).collect(Collectors.toList()); // die "schöne" Lösung (aber nicht die von mir) <-- das auch nicht
-                // ändern oder verstehen
+                // ändern oder verstehen -> Durch methode getFilteredByCategory() kommen Card-Category-Paare, mit Karten die in allen cats sind
+                // diese werden jetzt "gestream" in eine map, welche für jedes Paar die zugehörige Karte in eine Liste packt
             }
         } else {
             if (cats == null) {
                 return cardRepository.findAllByFolderId(folderId);
             } else {
-                return null;
+                //return null;
                 //return cardRepository.findAllByFolderCategoryId(folderId, cat);
+                List<Card> cards_by_cat = getFilteredByCategory(cats).stream().map(CardCategory::getCard).toList(); // hier hat es vorgeschlagen collect(...) mit toList() zu ersetzen, also habe ich es gemacht
+                List<Card> cards_by_folder = cardRepository.findAllByFolderId(folderId);
+                for(int i = 0; i < cards_by_folder.size(); i++) {
+                    boolean found = false;
+                    for(Card card : cards_by_cat) {
+                        if (card.getId() == cards_by_folder.get(i).getId()) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        cards_by_folder.remove(i);
+                        i--;
+                    }
+                }
+            return cards_by_folder;
             }
         }
     }
 
     public List<CardCategory> getFilteredByCategory(int[] cats) {
-        List<CardCategory> cardList = cardCategoryRepository.findAllByCategoryId(cats[0]);
+        List<CardCategory> cardList = cardCategoryRepository.findAllByCategoryId(cats[0]);  // nur Card-Category-Paare, mit Paaren, wo KategorieId = cat[0] ist
 
         for( int j = 0; j < cardList.size(); j++) {
-            List<CardCategory> allEntriesOfOneCard = cardCategoryRepository.findAllByCardId(cardList.get(j).getCard().getId()); //wtf
+            // Jetzt suchen wir alle Card-Category-Tupel, bei denen KartenId = (j. KartenId von vorheriger Liste)
+            // --> Liste mit Card-Category-Tupeln einer einzigen Karten, bei denen die Karte mind. in Katergorie cat[0] ist
+            List<CardCategory> allEntriesOfOneCard = cardCategoryRepository.findAllByCardId(cardList.get(j).getCard().getId()); //wtf <-- das ist doch verständlich...
+            // jetzt checken, ob die Karte auch zu den anderen gewünschten Kategorien gehört
             for(int i = 1; i < cats.length; i++) {
                 boolean found = false;
                 for (CardCategory cardCategory : allEntriesOfOneCard) {
@@ -82,6 +102,6 @@ public class DeskService {
         }
         return cardList;
 
-        //hilfe
+        //hilfe --> Also selbst schreiben hätte ich es auch nicht gekonnt, aber verständlich ist es einigermaßen (falls ich es nicht falsch verstehen xD)
     }
 }
