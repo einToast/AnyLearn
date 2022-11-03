@@ -57,22 +57,14 @@ public class DeskService {
             } else {
                 //return null;
                 //return cardRepository.findAllByFolderCategoryId(folderId, cat);
-                List<Card> cards_by_cat = getFilteredByCategory(cats).stream().map(CardCategory::getCard).toList(); // hier hat es vorgeschlagen collect(...) mit toList() zu ersetzen, also habe ich es gemacht
-                List<Card> cards_by_folder = cardRepository.findAllByFolderId(folderId);
-                for(int i = 0; i < cards_by_folder.size(); i++) {
-                    boolean found = false;
-                    for(Card card : cards_by_cat) {
-                        if (card.getId() == cards_by_folder.get(i).getId()) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        cards_by_folder.remove(i);
+                List<Card> cards_by_cat = getFilteredByCategory(cats).stream().map(CardCategory::getCard).collect(Collectors.toList());
+                for(int i = 0; i < cards_by_cat.size(); i++) {
+                    if (folderId != cards_by_cat.get(i).getFolder().getId()) {
+                        cards_by_cat.remove(i);
                         i--;
                     }
                 }
-            return cards_by_folder;
+            return cards_by_cat;
             }
         }
     }
