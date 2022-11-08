@@ -10,7 +10,6 @@ import java.util.List;
 
 @RepositoryDefinition(domainClass = CardCategory.class, idClass = Integer.class)
 public interface CardCategoryRepository extends CrudRepository<CardCategory, Integer> {
-    // lol auto generated, maybe we need this later
 
     @Query("SELECT c FROM CardCategory c WHERE c.card.id = :cardId")
     List<CardCategory> findAllByCardId(@Param("cardId") int cardId);

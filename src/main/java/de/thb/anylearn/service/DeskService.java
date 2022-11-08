@@ -47,7 +47,7 @@ public class DeskService {
             } else {
                 //return null;
                 //return cardRepository.findAllByCategoriesId(cat);
-                return getFilteredByCategory(cats).stream().map(CardCategory::getCard).collect(Collectors.toList()); // die "schöne" Lösung (aber nicht die von mir) <-- das auch nicht
+                return getFilteredByCategory(cats).stream().map(CardCategory::getCard).collect(Collectors.toList());
                 // ändern oder verstehen -> Durch methode getFilteredByCategory() kommen Card-Category-Paare, mit Karten die in allen cats sind
                 // diese werden jetzt "gestream" in eine map, welche für jedes Paar die zugehörige Karte in eine Liste packt
             }
@@ -75,7 +75,7 @@ public class DeskService {
         for( int j = 0; j < cardList.size(); j++) {
             // Jetzt suchen wir alle Card-Category-Tupel, bei denen KartenId = (j. KartenId von vorheriger Liste)
             // --> Liste mit Card-Category-Tupeln einer einzigen Karten, bei denen die Karte mind. in Katergorie cat[0] ist
-            List<CardCategory> allEntriesOfOneCard = cardCategoryRepository.findAllByCardId(cardList.get(j).getCard().getId()); //wtf <-- das ist doch verständlich...
+            List<CardCategory> allEntriesOfOneCard = cardCategoryRepository.findAllByCardId(cardList.get(j).getCard().getId());
             // jetzt checken, ob die Karte auch zu den anderen gewünschten Kategorien gehört
             for(int i = 1; i < cats.length; i++) {
                 boolean found = false;
@@ -90,7 +90,7 @@ public class DeskService {
                     j--;
                     break;
                 }
-            } // wtf bis hier ungefähr - GitHub Copilot ist echt mächtig
+            }
         }
         return cardList;
 
