@@ -48,7 +48,7 @@ public class DeskService {
                 //return null;
                 //return cardRepository.findAllByCategoriesId(cat);
                 return getFilteredByCategory(cats).stream().map(CardCategory::getCard).collect(Collectors.toList());
-                // ändern oder verstehen -> Durch methode getFilteredByCategory() kommen Card-Category-Paare, mit Karten die in allen cats sind
+                // Durch methode getFilteredByCategory() kommen Card-Category-Paare, mit Karten die in allen cats sind
                 // diese werden jetzt "gestream" in eine map, welche für jedes Paar die zugehörige Karte in eine Liste packt
             }
         } else {
@@ -93,7 +93,5 @@ public class DeskService {
             }
         }
         return cardList;
-
-        //hilfe --> Also selbst schreiben hätte ich es auch nicht gekonnt, aber verständlich ist es einigermaßen (falls ich es nicht falsch verstehen xD)
     }
 }
