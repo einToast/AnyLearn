@@ -25,20 +25,10 @@ public class AnyLearnController {
      * @param model does something
      * @return String for html
      */
-    @GetMapping("show/folder={id}_cat={categories}")
-    public String getCards(@PathVariable("id") int id, @PathVariable("categories") String categories, Model model, AnyLearnFormModel form) {
-        int[] cat = null;
-        if(!categories.equals("")) {
-            String[] parts = categories.split("-");
-            cat = new int [parts.length];
+    @GetMapping("show/folder={id}/cat={categories}")
+    public String getCards(@PathVariable("id") int id, @PathVariable("categories") int[] categories, Model model, AnyLearnFormModel form) {
 
-            for(int i = 0; i < parts.length; i++) {
-                System.out.print(parts[i]);
-                //TODO: Exception Handling if parts[i] not Integer
-                cat[i] = Integer.parseInt(parts[i]);
-            }
-        }
-        model.addAttribute("cards1", deskService.getFilteredCard(id, cat));
+        model.addAttribute("cards1", deskService.getFilteredCard(id, categories));
         model.addAttribute("folder1", deskService.getAllFolder());
         model.addAttribute("category1", deskService.getAllCategory());
         model.addAttribute("formula", id);
@@ -54,30 +44,37 @@ public class AnyLearnController {
      * @param model does something
      * @return String for html
      */
-    @PostMapping("show/folder={id}_cat={categories}")
+    @PostMapping("show/folder={id}/cat={categories}")
     public RedirectView postCards(Model model, AnyLearnFormModel form) {
-        String cat = "cat=";
-        if(form.getCategoryId() != null) {
-            for (int a : form.getCategoryId()) {
-                cat += String.valueOf(a) + "-";
+        String cat = "";
+        int[] cat_arr = form.getCategoryId();
+        if (cat_arr != null) {
+            for (int a : cat_arr) {
+                if (!cat.equals(""))
+                    cat += ",";
+                cat = cat + a;
             }
         } else {
-            //cat += "0";
+            cat = "0";
         }
-        return new RedirectView("/show/folder="+form.getFolderId() + "_" + cat);
+        return new RedirectView("/show/folder="+form.getFolderId() + "/cat=" + cat);
     }
 
     @PostMapping("show")
     public RedirectView allCardsPost(Model model, AnyLearnFormModel form) {
-        String cat = "cat=";
-        if(form.getCategoryId() != null) {
-            for (int a : form.getCategoryId()) {
-                cat += String.valueOf(a) + "-";
+        String cat = "";
+        int[] cat_arr = form.getCategoryId();
+        if (cat_arr != null) {
+            for (int a : cat_arr) {
+                if (!cat.equals(""))
+                    cat += ",";
+                cat = cat + a;
             }
-        }else {
-            //cat += "0";
+        } else {
+            cat = "0";
         }
-        return new RedirectView("/show/folder="+form.getFolderId() + "_" + cat);
+
+        return new RedirectView("/show/folder="+form.getFolderId() + "/cat=" + cat);
     }
     @GetMapping("show")
     public String allCardsGet(Model model, AnyLearnFormModel form) {

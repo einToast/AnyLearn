@@ -42,7 +42,7 @@ public class DeskService {
 
     public List<Card> getFilteredCard(int folderId, int[] cats) {
         if (folderId == 0) {
-            if (cats == null) {
+            if (cats[0] == 0)  {
                 return getAllCard();
             } else {
                 //return null;
@@ -52,7 +52,7 @@ public class DeskService {
                 // diese werden jetzt "gestream" in eine map, welche für jedes Paar die zugehörige Karte in eine Liste packt
             }
         } else {
-            if (cats == null) {
+            if (cats[0] == 0) {
                 return cardRepository.findAllByFolderId(folderId);
             } else {
                 //return null;
