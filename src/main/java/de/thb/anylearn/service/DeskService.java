@@ -11,7 +11,9 @@ import de.thb.anylearn.repository.FolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -93,5 +95,37 @@ public class DeskService {
             }
         }
         return cardList;
+    }
+
+    /**
+     *
+     * @param folderId
+     * @param categories
+     * @return Id of the nextCard or 0 if no more cards
+     */
+    public int getNextCardIdToLearn(int folderId, int[] categories) {
+        List<Card> all_cards = getFilteredCard(folderId, categories);   // gets filtered Cards ORDERED BY nextTime
+        Card nextCard;
+        if (all_cards.size() > 0)
+            nextCard = all_cards.get(0);                               // gets nextCard
+        else
+            return 0;
+
+        Date now = new Date();
+        now.setTime(now.getTime() + 20 * 60 * 1000);    // add 20 Minutes to current DateTime
+        if (nextCard.getNextTime() == null)
+            nextCard.setNextTime(now);
+
+        // if now + 20 minutes smaller/equals nextTime of the next Card
+        if (now.compareTo(nextCard.getNextTime()) >= 0) {
+            return nextCard.getId();
+        } else {
+            return 0;       //0 means: no Cards to learn for now
+        }
+    }
+
+    public Card getCardById(int cardId) {
+        Optional<Card> card = cardRepository.findById(cardId);
+        return card.orElse(null);
     }
 }

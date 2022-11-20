@@ -1,6 +1,7 @@
 package de.thb.anylearn.entity;
 
 import lombok.*;
+import net.bytebuddy.utility.nullability.MaybeNull;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,6 +25,8 @@ public class Card {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date nextTime;
+
+    private int difficulty;
 
     @ManyToOne
     private Folder folder;

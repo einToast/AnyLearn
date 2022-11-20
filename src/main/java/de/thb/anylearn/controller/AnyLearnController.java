@@ -19,6 +19,45 @@ public class AnyLearnController {
     @Autowired
     private DeskService deskService;
 
+
+    @GetMapping("learn/finished")
+    public String showFinished(Model model) {
+
+        return "finished";
+    }
+
+    @GetMapping("learn/folder={folderId}/cat={categories}/card={cardId}")
+    public String getCards(@PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId, Model model) {
+
+        model.addAttribute("card", deskService.getCardById(cardId));
+
+        return "learn";
+    }
+
+    /**
+     * http://localhost:8080/learn
+     *
+     * @param model does something
+     * @return String for html
+     */
+    @GetMapping("learn/folder={folderId}/cat={categories}")
+    public RedirectView nextCard(@PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, Model model) {
+        int cardId = deskService.getNextCardIdToLearn(folderId, categories);
+        if (cardId == 0) {
+            return new RedirectView("/learn/finished");
+        } else {
+            String cat = arrayToUrlString(categories);
+
+            return new RedirectView("/learn/folder=" + folderId + "/cat=" + cat + "/card=" + cardId);
+        }
+    }
+    @GetMapping("learn")
+    public RedirectView nextCard(Model model) {
+        return new RedirectView("/learn/folder=0/cat=0");
+
+    }
+
+
     /**
      * http://localhost:8080/
      *
@@ -37,7 +76,6 @@ public class AnyLearnController {
     }
 
 
-
     /**
      * http://localhost:8080/
      *
@@ -46,36 +84,18 @@ public class AnyLearnController {
      */
     @PostMapping("show/folder={id}/cat={categories}")
     public RedirectView postCards(Model model, AnyLearnFormModel form) {
-        String cat = "";
-        int[] cat_arr = form.getCategoryId();
-        if (cat_arr != null) {
-            for (int a : cat_arr) {
-                if (!cat.equals(""))
-                    cat += ",";
-                cat = cat + a;
-            }
-        } else {
-            cat = "0";
-        }
-        return new RedirectView("/show/folder="+form.getFolderId() + "/cat=" + cat);
+        String cat = arrayToUrlString(form.getCategoryId());
+
+        return new RedirectView("/show/folder=" + form.getFolderId() + "/cat=" + cat);
     }
 
     @PostMapping("show")
     public RedirectView allCardsPost(Model model, AnyLearnFormModel form) {
-        String cat = "";
-        int[] cat_arr = form.getCategoryId();
-        if (cat_arr != null) {
-            for (int a : cat_arr) {
-                if (!cat.equals(""))
-                    cat += ",";
-                cat = cat + a;
-            }
-        } else {
-            cat = "0";
-        }
+        String cat = arrayToUrlString(form.getCategoryId());
 
-        return new RedirectView("/show/folder="+form.getFolderId() + "/cat=" + cat);
+        return new RedirectView("/show/folder=" + form.getFolderId() + "/cat=" + cat);
     }
+
     @GetMapping("show")
     public String allCardsGet(Model model, AnyLearnFormModel form) {
         // TODO: Redirect auf / ausführen der Funktion getCards für Kontinuität
@@ -98,4 +118,23 @@ public class AnyLearnController {
         return "home";
     }
 
+    /**
+     * Function to convert a int-Array into a string for url (e.g. categories)
+     *
+     * @param arr (int-array which should converted to String for URL
+     * @return return_string
+     */
+    public String arrayToUrlString(int[] arr) {
+        String return_string = "";
+        if (arr != null) {
+            for (int a : arr) {
+                if (!return_string.equals(""))
+                    return_string += ",";
+                return_string = return_string + a;
+            }
+        } else {
+            return_string = "0";
+        }
+        return return_string;
+    }
 }
