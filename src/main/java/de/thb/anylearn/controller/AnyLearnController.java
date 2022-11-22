@@ -70,7 +70,10 @@ public class AnyLearnController {
         model.addAttribute("cards1", deskService.getFilteredCard(id, categories));
         model.addAttribute("folder1", deskService.getAllFolder());
         model.addAttribute("category1", deskService.getAllCategory());
-        model.addAttribute("formula", id);
+        model.addAttribute("folder", id);
+        System.out.println(categories);
+        int [] arr = {1,2};
+        model.addAttribute("selected_categories", arr);
 
         return "cards";
     }
@@ -97,13 +100,9 @@ public class AnyLearnController {
     }
 
     @GetMapping("show")
-    public String allCardsGet(Model model, AnyLearnFormModel form) {
-        // TODO: Redirect auf / ausführen der Funktion getCards für Kontinuität
-        model.addAttribute("cards1", deskService.getAllCard());
-        model.addAttribute("folder1", deskService.getAllFolder());
-        model.addAttribute("category1", deskService.getAllCategory());
-        model.addAttribute("formula", 0);
-        return "cards";
+    public RedirectView allCardsGet(Model model, AnyLearnFormModel form) {
+        // TODO: Redirect auf / ausführen der Funktion getCards für Kontinuität -> Erledigt 22.11. (CD)
+        return new RedirectView("/show/folder=" + 0 + "/cat=" + 0);
     }
 
     /**

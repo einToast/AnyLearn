@@ -17,11 +17,12 @@
             <option value="0" >All</option>
             <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
             <option th:each="folder: ${folder1}" th:value="${folder.id}" th:text="${folder.name}"
-                    th:selected="${formula eq folder.id}"></option>
+                    th:selected="${folder eq folder.id}"></option>
         </select>
         <label for="category">Choose a Category:</label>
         <select name="categoryId" id="category" multiple="multiple">
-            <option th:each="category: ${category1}" th:value="${category.id}" th:text="${category.name}"></option>
+<!--        tried:          th:selected="${#arrays.contains(selected_categories, category.id)}"    -->
+            <option th:each="category: ${category1}" th:value="${category.id}" ></option>
         </select>
         <input type="submit" value="Filtern">
     </form>
