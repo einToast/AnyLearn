@@ -71,9 +71,7 @@ public class AnyLearnController {
         model.addAttribute("folder1", deskService.getAllFolder());
         model.addAttribute("category1", deskService.getAllCategory());
         model.addAttribute("folderId", id);
-        System.out.println(categories);
-        int [] arr = {1,2};
-        model.addAttribute("selectedCategories", arr);
+        model.addAttribute("selectedCategories", categories);
 
         return "cards";
     }
