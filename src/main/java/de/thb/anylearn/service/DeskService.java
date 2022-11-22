@@ -11,9 +11,8 @@ import de.thb.anylearn.repository.FolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,7 +103,8 @@ public class DeskService {
      * @return Id of the nextCard or 0 if no more cards
      */
     public int getNextCardIdToLearn(int folderId, int[] categories) {
-        List<Card> cardList = getFilteredCard(folderId, categories);   // gets filtered Cards ORDERED BY nextTime
+        List<Card> cardList = getFilteredCard(folderId, categories);
+        cardList.sort(Comparator.comparing(Card::getNextTime));
         Card nextCard;
         if (cardList.size() > 0)
             nextCard = cardList.get(0);                               // gets nextCard
@@ -127,5 +127,61 @@ public class DeskService {
     public Card getCardById(int cardId) {
         Optional<Card> card = cardRepository.findById(cardId);
         return card.orElse(null);
+    }
+
+
+    public void rescheduleCard(int cardId, int answer_difficulty) {
+        Calendar cal = Calendar.getInstance();
+        Optional<Card> optionalCard = cardRepository.findById(cardId);
+
+        if (optionalCard.isPresent()) {
+            Card card = optionalCard.get();
+            int currDifficulty = card.getDifficulty();
+            System.out.println(currDifficulty);
+            System.out.println(answer_difficulty);
+            if (currDifficulty == 0) {
+                System.out.println("Vor Switch");
+                switch (answer_difficulty) {
+                    case 0: {
+                        cal.add(Calendar.MINUTE, 1);        // 1 min
+                        System.out.println("Set Diff");
+                        card.setDifficulty(0);
+                        break;
+                    }
+                    case 1: {
+                        cal.add(Calendar.MINUTE, 10);    // 10 min + Difficulty hoch
+                        card.setDifficulty(1);
+                        break;
+                    }
+                    case 2: {                                   // Nächster Tag + Difficulty Hoch
+                        cal.add(Calendar.DATE, 1);
+                        cal.set(Calendar.HOUR_OF_DAY, 0);
+                        cal.set(Calendar.MINUTE, 0);
+                        cal.set(Calendar.SECOND, 0);
+                        cal.set(Calendar.MILLISECOND, 0);
+
+                        card.setDifficulty(1);
+                        break;
+                    }
+                }
+            } else {
+                System.out.println("in else");
+                if (answer_difficulty == 0) {
+                    cal.add(Calendar.MINUTE, 1);        // 1 min + difficulty auf 0
+                    card.setDifficulty(0);
+                } else {                                        // entsprechend später
+                    cal.add(Calendar.DATE, currDifficulty * answer_difficulty);
+                    cal.set(Calendar.HOUR_OF_DAY, 0);
+                    cal.set(Calendar.MINUTE, 0);
+                    cal.set(Calendar.SECOND, 0);
+                    cal.set(Calendar.MILLISECOND, 0);
+
+                    card.setDifficulty(currDifficulty * answer_difficulty);
+                }
+            }
+            card.setNextTime(cal.getTime());
+
+            cardRepository.save(card);
+        }
     }
 }

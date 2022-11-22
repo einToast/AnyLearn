@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AnyLearn - Lernen</title>
+</head>
+<body>
+<p><div th:text="${card.question}"></div></p>
+
+<p><div th:text="${card.answer}"></div></p>
+
+<a th:href="@{/learn/folder={folder}/cat={categories}/card={card}/0(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">Falsch, nochmal</a>
+ -----
+<a th:href="@{/learn/folder={folder}/cat={categories}/card={card}/1(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">Richtig, schwer</a>
+ -----
+<a th:href="@{/learn/folder={folder}/cat={categories}/card={card}/2(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">Richtig, einfach</a>
+
+
+<p> <a th:href="@{/}">Startseite</a></p>
+</body>
+</html>

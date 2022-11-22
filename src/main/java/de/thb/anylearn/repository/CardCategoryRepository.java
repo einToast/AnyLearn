@@ -11,7 +11,7 @@ import java.util.List;
 @RepositoryDefinition(domainClass = CardCategory.class, idClass = Integer.class)
 public interface CardCategoryRepository extends CrudRepository<CardCategory, Integer> {
 
-    @Query("SELECT c FROM CardCategory c WHERE c.card.id = :cardId ORDER BY c.card.nextTime")
+    @Query("SELECT c FROM CardCategory c WHERE c.card.id = :cardId")
     List<CardCategory> findAllByCardId(@Param("cardId") int cardId);
 
     @Query("SELECT c FROM CardCategory c WHERE c.category.id = :categoryId")

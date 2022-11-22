@@ -5,7 +5,10 @@
     <title>AnyLearn - Lernen</title>
 </head>
 <body>
-<div th:text="${card.question}"></div>
-<a th:href="@{/}">Startseite</a>
+<p><div th:text="${card.question}"></div></p>
+
+<form action="" method="POST"><input type="submit" value="Antwort anzeigen"></form>
+
+<p> <a th:href="@{/}">Startseite</a></p>
 </body>
 </html>

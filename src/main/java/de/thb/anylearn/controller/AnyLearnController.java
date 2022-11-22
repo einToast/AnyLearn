@@ -26,6 +26,31 @@ public class AnyLearnController {
         return "finished";
     }
 
+    @GetMapping("learn/folder={folderId}/cat={categories}/card={cardId}/{difficulty}")
+    public RedirectView reschedule(@PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId, @PathVariable("difficulty") int difficulty, Model model) {
+
+        deskService.rescheduleCard(cardId, difficulty);
+
+        String cat = arrayToUrlString(categories);
+        return new RedirectView("/learn/folder=" + folderId + "/cat=" + cat);
+    }
+
+    @GetMapping("learn/folder={folderId}/cat={categories}/card={cardId}/answer")
+    public String showAnswer(@PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId, Model model) {
+
+        model.addAttribute("card", deskService.getCardById(cardId));
+        model.addAttribute("folderId", folderId);
+        model.addAttribute("selectedCategories", categories);
+
+        return "learn_answer";
+    }
+
+    @PostMapping("learn/folder={folderId}/cat={categories}/card={cardId}")
+    public RedirectView getAnswer(@PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId, Model model) {
+        String cat = arrayToUrlString(categories);
+        return new RedirectView("/learn/folder=" + folderId + "/cat=" + cat + "/card=" + cardId + "/answer");
+    }
+
     @GetMapping("learn/folder={folderId}/cat={categories}/card={cardId}")
     public String getCards(@PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId, Model model) {
 
