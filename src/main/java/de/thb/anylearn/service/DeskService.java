@@ -104,10 +104,10 @@ public class DeskService {
      * @return Id of the nextCard or 0 if no more cards
      */
     public int getNextCardIdToLearn(int folderId, int[] categories) {
-        List<Card> all_cards = getFilteredCard(folderId, categories);   // gets filtered Cards ORDERED BY nextTime
+        List<Card> cardList = getFilteredCard(folderId, categories);   // gets filtered Cards ORDERED BY nextTime
         Card nextCard;
-        if (all_cards.size() > 0)
-            nextCard = all_cards.get(0);                               // gets nextCard
+        if (cardList.size() > 0)
+            nextCard = cardList.get(0);                               // gets nextCard
         else
             return 0;
 
