@@ -1,6 +1,7 @@
 package de.thb.anylearn.controller;
 
 import de.thb.anylearn.controller.form.AnyLearnFormModel;
+import de.thb.anylearn.controller.form.CardFormModel;
 import de.thb.anylearn.service.DeskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,11 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.Arrays;
-
+//To-do: Controller aufteilen
 @Controller
 public class AnyLearnController {
 
@@ -49,6 +48,12 @@ public class AnyLearnController {
     public RedirectView getAnswer(@PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId, Model model) {
         String cat = arrayToUrlString(categories);
         return new RedirectView("/learn/folder=" + folderId + "/cat=" + cat + "/card=" + cardId + "/answer");
+    }
+
+    @GetMapping("edit/finished")
+    public String showEditFinished(Model model) {
+
+        return "editFinished";
     }
 
     @GetMapping("learn/folder={folderId}/cat={categories}/card={cardId}")
@@ -101,6 +106,16 @@ public class AnyLearnController {
         return "cards";
     }
 
+    @GetMapping("edit/{id}")
+    public String editCards(@PathVariable("id") int id, Model model) {
+
+        model.addAttribute("card", deskService.getCardById(id));
+        model.addAttribute("folder1", deskService.getAllFolder());
+        model.addAttribute("category1", deskService.getAllCategory());
+        model.addAttribute("selectedCategories", deskService.getAllCategoryIdFromCard(id));
+        return "edit";
+    }
+
 
     /**
      * http://localhost:8080/
@@ -120,6 +135,13 @@ public class AnyLearnController {
         String cat = arrayToUrlString(form.getCategoryId());
 
         return new RedirectView("/show/folder=" + form.getFolderId() + "/cat=" + cat);
+    }
+
+    @PostMapping("edit/{id}")
+    public RedirectView changeCard(Model model, CardFormModel form){
+        deskService.updateCard(form);
+
+        return new RedirectView("/edit/finished");
     }
 
     @GetMapping("show")
@@ -159,4 +181,6 @@ public class AnyLearnController {
         }
         return return_string;
     }
+
+
 }

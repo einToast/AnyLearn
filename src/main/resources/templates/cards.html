@@ -21,8 +21,8 @@
         </select>
         <label for="category">Choose a Category:</label>
         <select name="categoryId" id="category" multiple="multiple">
-<!--        tried:          th:selected="${#arrays.contains(selectedCategories, category.id)}"    -->
-            <option th:each="category: ${category1}" th:value="${category.id}" th:text="${category.name}"></option>
+            <option th:each="category: ${category1}" th:value="${category.id}" th:text="${category.name}"
+                    th:selected="${#lists.contains(selectedCategories, category.id)}"></option>
         </select>
         <input type="submit" value="Filtern">
     </form>
@@ -38,12 +38,14 @@
             <th>answer</th>
             <th>folder</th>
             <th>category</th>
+            <th></th>
         </tr>
         <tr th:each="card: ${cards1}">
             <td th:text="${card.question}"></td>
             <td th:text="${card.answer}"></td>
             <td th:text="${card.folder.name}"></td>
             <td><div th:each="cardcat: ${card.cardCategories}" th:text="${cardcat?.category.name}"></div></td>
+            <td> <a th:href="@{/edit/{cardId}(cardId =${card.id})}">Edit</a></td>
         </tr>
     </table>
 </div>

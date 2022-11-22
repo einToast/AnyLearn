@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+  <h1>Edit</h1>
+  <form action="" method="POST">
+    <label for="idId">ID</label>
+      <input name = "id" id = "idId" type ="text" disabled th:value = "${card.id}">
+    <br><br>
+
+    <label for="editedQuestion">Question</label>
+    <input name="question" id="editedQuestion" type ="text" th:value = "${card.question}">
+    <br><br>
+
+    <label for="editedAnswer">Answer</label>
+      <input name="answer" id="editedAnswer"  type ="text" th:value = "${card.answer}">
+    <br><br>
+
+    <label for="folders">Folder:</label>
+      <select name="folderId" id="folders">
+        <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
+        <option th:each="folder: ${folder1}" th:value="${folder.id}" th:text="${folder.name}"
+                th:selected="${card.folder.id eq folder.id}"></option>
+      </select>
+    <br><br>
+
+    <label for="category">Choose a Category:</label>
+      <select name="categoryId" id="category" multiple="multiple">
+        <option th:each="category: ${category1}" th:value="${category.id}" th:text="${category.name}"
+                th:selected="${#lists.contains(selectedCategories, category.id)}"></option>
+      </select>
+    <input type="submit" value="Change">
+  </form>
+</body>
+</html>

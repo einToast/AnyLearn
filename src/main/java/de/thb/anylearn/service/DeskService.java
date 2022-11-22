@@ -1,9 +1,7 @@
 package de.thb.anylearn.service;
 
-import de.thb.anylearn.entity.Card;
-import de.thb.anylearn.entity.CardCategory;
-import de.thb.anylearn.entity.Folder;
-import de.thb.anylearn.entity.Category;
+import de.thb.anylearn.controller.form.CardFormModel;
+import de.thb.anylearn.entity.*;
 import de.thb.anylearn.repository.CardCategoryRepository;
 import de.thb.anylearn.repository.CardRepository;
 import de.thb.anylearn.repository.CategoryRepository;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -98,8 +95,8 @@ public class DeskService {
 
     /**
      *
-     * @param folderId
-     * @param categories
+     * @param folderId id of the folder
+     * @param categories list of categories
      * @return Id of the nextCard or 0 if no more cards
      */
     public int getNextCardIdToLearn(int folderId, int[] categories) {
@@ -141,19 +138,18 @@ public class DeskService {
             System.out.println(answer_difficulty);
             if (currDifficulty == 0) {
                 System.out.println("Vor Switch");
+                //enhanched Switch
                 switch (answer_difficulty) {
-                    case 0: {
+                    case 0 -> {
                         cal.add(Calendar.MINUTE, 1);        // 1 min
                         System.out.println("Set Diff");
                         card.setDifficulty(0);
-                        break;
                     }
-                    case 1: {
+                    case 1 -> {
                         cal.add(Calendar.MINUTE, 10);    // 10 min + Difficulty hoch
                         card.setDifficulty(1);
-                        break;
                     }
-                    case 2: {                                   // Nächster Tag + Difficulty Hoch
+                    case 2 -> {                                   // Nächster Tag + Difficulty Hoch
                         cal.add(Calendar.DATE, 1);
                         cal.set(Calendar.HOUR_OF_DAY, 0);
                         cal.set(Calendar.MINUTE, 0);
@@ -161,7 +157,6 @@ public class DeskService {
                         cal.set(Calendar.MILLISECOND, 0);
 
                         card.setDifficulty(1);
-                        break;
                     }
                 }
             } else {
@@ -183,5 +178,26 @@ public class DeskService {
 
             cardRepository.save(card);
         }
+    }
+
+    public int[] getAllCategoryIdFromCard(int cardId) {
+        return getAllCategoriesFromCard(cardId).stream().mapToInt(Category::getId).toArray();
+    }
+    public List<Category> getAllCategoriesFromCard(int cardId){
+        return cardCategoryRepository.findAllByCardId(cardId).stream().map(CardCategory::getCategory).collect(Collectors.toList());
+    }
+
+    //überarbeiten, könnte eleganter gelöst werden
+    public void updateCard(CardFormModel cardFormModel) {
+
+        // Card erstellen und cardRepository.save()
+        cardRepository.updateCard(cardFormModel.getId(),cardFormModel.getQuestion(),cardFormModel.getAnswer(),cardFormModel.getFolderId());
+        cardCategoryRepository.deleteAllByCardId(cardFormModel.getId());
+
+        // Card erstellen, Category erstellen --> CardCategory erstellen und cardCategoryRepository.save()
+        for(int catId : cardFormModel.getCategoryId()) {
+            cardCategoryRepository.saveCardCategory(cardFormModel.getId(),catId);
+        }
+
     }
 }
