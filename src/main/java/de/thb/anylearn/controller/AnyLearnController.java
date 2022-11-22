@@ -70,10 +70,10 @@ public class AnyLearnController {
         model.addAttribute("cards1", deskService.getFilteredCard(id, categories));
         model.addAttribute("folder1", deskService.getAllFolder());
         model.addAttribute("category1", deskService.getAllCategory());
-        model.addAttribute("folder", id);
+        model.addAttribute("folderId", id);
         System.out.println(categories);
         int [] arr = {1,2};
-        model.addAttribute("selected_categories", arr);
+        model.addAttribute("selectedCategories", arr);
 
         return "cards";
     }
