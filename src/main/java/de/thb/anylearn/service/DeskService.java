@@ -100,7 +100,13 @@ public class DeskService {
      * @return Id of the nextCard or 0 if no more cards
      */
     public int getNextCardIdToLearn(int folderId, int[] categories) {
+        Date now = new Date();
         List<Card> cardList = getFilteredCard(folderId, categories);
+        for(Card c : cardList) {
+            if(c.getNextTime() == null) {
+                c.setNextTime(now);
+            }
+        }
         cardList.sort(Comparator.comparing(Card::getNextTime));
         Card nextCard;
         if (cardList.size() > 0)
@@ -108,7 +114,7 @@ public class DeskService {
         else
             return 0;
 
-        Date now = new Date();
+
         now.setTime(now.getTime() + 20 * 60 * 1000);    // add 20 Minutes to current DateTime
         if (nextCard.getNextTime() == null)
             nextCard.setNextTime(now);
@@ -195,8 +201,10 @@ public class DeskService {
         cardCategoryRepository.deleteAllByCardId(cardFormModel.getId());
 
         // Card erstellen, Category erstellen --> CardCategory erstellen und cardCategoryRepository.save()
-        for(int catId : cardFormModel.getCategoryId()) {
-            cardCategoryRepository.saveCardCategory(cardFormModel.getId(),catId);
+        if (cardFormModel.getCategoryId() != null) {
+            for (int catId : cardFormModel.getCategoryId()) {
+                cardCategoryRepository.saveCardCategory(cardFormModel.getId(), catId);
+            }
         }
 
     }
