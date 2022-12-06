@@ -197,15 +197,25 @@ public class DeskService {
     public void updateCard(CardFormModel cardFormModel) {
 
         // Card erstellen und cardRepository.save()
-        cardRepository.updateCard(cardFormModel.getId(),cardFormModel.getQuestion(),cardFormModel.getAnswer(),cardFormModel.getFolderId());
-        cardCategoryRepository.deleteAllByCardId(cardFormModel.getId());
+        Card card = cardRepository.findById(cardFormModel.getId()).get();
+        Folder folder = folderRepository.findById(cardFormModel.getFolderId()).get();
+        List<CardCategory> cardCategories = cardCategoryRepository.findAllByCardId(cardFormModel.getId());
 
-        // Card erstellen, Category erstellen --> CardCategory erstellen und cardCategoryRepository.save()
-        if (cardFormModel.getCategoryId() != null) {
-            for (int catId : cardFormModel.getCategoryId()) {
-                cardCategoryRepository.saveCardCategory(cardFormModel.getId(), catId);
-            }
+        card.setQuestion(cardFormModel.getQuestion());
+        card.setAnswer(cardFormModel.getAnswer());
+        card.setFolder(folder);
+        cardRepository.save(card);
+
+        for(CardCategory cardCategory : cardCategories) {
+            cardCategoryRepository.delete(cardCategory);
         }
 
+        if(cardFormModel.getCategoryId() != null){
+            for (int catId : cardFormModel.getCategoryId()) {
+                Category category = categoryRepository.findById(catId).get();
+                CardCategory cardCategory = new CardCategory(card, category);
+                cardCategoryRepository.save(cardCategory);
+            }
+        }
     }
 }

@@ -24,7 +24,6 @@ public interface CardCategoryRepository extends CrudRepository<CardCategory, Int
     @Query("DELETE FROM CardCategory c WHERE c.card.id = :cardId")
     void deleteAllByCardId(@Param("cardId") int cardId);
 
-    // etwas dreckig, direkt SQL, kein pseudoSQL, auch mit .save() möglich
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO card_category (card_id, category_id) VALUES (:cardId, :categoryId)", nativeQuery = true)
