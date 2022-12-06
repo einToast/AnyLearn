@@ -51,7 +51,8 @@
     </table>
 </div>
 <br>
-<a th:href="@{/}">Zurück</a>     <a th:href="@{/learn/folder={folder}/cat={categories}(folder=${folderId}, categories=${selectedCategories})}">Diese Karten jetzt lernen</a>
+<a class="btn btn-secondary" th:href="@{/}">Zurück</a>
+<a class="btn btn-primary" th:href="@{/learn/folder={folder}/cat={categories}(folder=${folderId}, categories=${selectedCategories})}">Diese Karten jetzt lernen</a>
 
 </body>
 </html>

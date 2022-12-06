@@ -13,15 +13,15 @@
 <p><div th:text="${card.answer}"></div></p>
 
 <form th:action="@{/learn/folder={folder}/cat={categories}/card={card}/0(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
-    <button type="submit">Falsch, nochmal.</button>
+    <button class="btn btn-danger" type="submit">Falsch, nochmal.</button>
 </form>
 <form th:action="@{/learn/folder={folder}/cat={categories}/card={card}/1(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
-    <button type="submit">Richtig, schwer.</button>
+    <button class="btn btn-warning" type="submit">Richtig, schwer.</button>
 </form>
 <form th:action="@{/learn/folder={folder}/cat={categories}/card={card}/2(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
-    <button type="submit">Richtig, leicht.</button>
+    <button class="btn btn-success" type="submit">Richtig, leicht.</button>
 </form>
 
-<p> <a th:href="@{/}">Startseite</a></p>
+<br><a class="btn btn-secondary" th:href="@{/}">Startseite</a>
 </body>
 </html>
