@@ -2,6 +2,8 @@ package de.thb.anylearn.entity;
 
 import lombok.*;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Data
@@ -9,9 +11,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @ToString
+@Embeddable
 public class CardCategoryID implements Serializable {
 
-    private Card card;
+    @Column(name = "card_id")
+    private int cardId;
 
-    private Category category;
+    @Column(name = "category_id")
+    private int categoryId;
 }
