@@ -11,14 +11,26 @@ import java.io.Serializable;
 @Builder
 @ToString
 @Entity
-@IdClass(CardCategoryID.class)
-public class CardCategory {
+public class CardCategory{
 
-    @Id
+    public CardCategory(Card card, Category category) {
+        this.card = card;
+        this.category = category;
+        this.id = new CardCategoryID(card.getId(), category.getId());
+    }
+
+    @EmbeddedId
+    CardCategoryID id;
+
     @ManyToOne
+    @MapsId("cardId")
+    @JoinColumn(name = "card_id")
     private Card card;
 
-    @Id
     @ManyToOne
+    @MapsId("categoryId")
+    @JoinColumn(name = "category_id")
     private Category category;
+
+
 }
