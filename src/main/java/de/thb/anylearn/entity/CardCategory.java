@@ -12,9 +12,8 @@ import java.io.Serializable;
 @ToString
 @Entity
 @IdClass(CardCategoryID.class)
-public class CardCategory implements Serializable {
+public class CardCategory {
 
-    // hope @Id works like this
     @Id
     @ManyToOne
     private Card card;
