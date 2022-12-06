@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -22,5 +23,7 @@ public class Category implements Serializable {
 
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private List<CardCategory> cardCategories;
+//    @ManyToMany
+//    Set<Card> cards;
 
 }

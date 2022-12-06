@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -32,4 +33,7 @@ public class Card {
 
     @OneToMany(mappedBy = "card", fetch = FetchType.EAGER)
     private List<CardCategory> cardCategories;
+//    @ManyToMany
+//        @JoinTable(name = "card_category", joinColumns = @JoinColumn(name = "card_id"), inverseJoinColumns = @JoinColumn(name ="course_id"))
+//    Set<Category> categories;
 }
