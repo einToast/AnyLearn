@@ -39,6 +39,7 @@
             <th>answer</th>
             <th>folder</th>
             <th>category</th>
+            <th>owner</th>
             <th></th>
         </tr>
         <tr th:each="card: ${cards1}">
@@ -46,6 +47,7 @@
             <td th:text="${card.answer}"></td>
             <td th:text="${card.folder.name}"></td>
             <td><div th:each="cardcat: ${card.cardCategories}" th:text="${cardcat?.category.name}"></div></td>
+            <td th:text="${card.owner?.name}"></td>
             <td> <a th:href="@{/edit/{cardId}(cardId =${card.id})}">Edit</a></td>
         </tr>
     </table>

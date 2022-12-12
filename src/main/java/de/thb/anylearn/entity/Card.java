@@ -31,6 +31,9 @@ public class Card {
     @ManyToOne
     private Folder folder;
 
+    @ManyToOne
+    private User owner;
+
     @OneToMany(mappedBy = "card", fetch = FetchType.EAGER)
     private List<CardCategory> cardCategories;
 //    @ManyToMany

@@ -34,6 +34,14 @@
                 th:selected="${#lists.contains(selectedCategories, category.id)}"></option>
       </select>
     <br>
+    <label for="users">Owner:</label>
+    <select name="ownerId" id="users">
+      <option value="0" >[Niemand]</option>
+      <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
+      <option th:each="user: ${owner}" th:value="${user.id}" th:text="${user.name}"
+              th:selected="${card.owner?.id eq user.id}"></option>
+    </select>
+    <br>
     <a class="btn btn-secondary" th:href="@{/}">Abbrechen</a>
     <input class="btn btn-primary" type="submit" value="Change">
   </form>

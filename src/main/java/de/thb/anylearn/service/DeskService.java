@@ -2,10 +2,7 @@ package de.thb.anylearn.service;
 
 import de.thb.anylearn.controller.form.CardFormModel;
 import de.thb.anylearn.entity.*;
-import de.thb.anylearn.repository.CardCategoryRepository;
-import de.thb.anylearn.repository.CardRepository;
-import de.thb.anylearn.repository.CategoryRepository;
-import de.thb.anylearn.repository.FolderRepository;
+import de.thb.anylearn.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +23,9 @@ public class DeskService {
     @Autowired
     private CardCategoryRepository cardCategoryRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public List<Card> getAllCard(){
         return (List<Card>) cardRepository.findAll();
     }
@@ -36,6 +36,10 @@ public class DeskService {
 
     public List<Category> getAllCategory() {
         return (List<Category>) categoryRepository.findAll();
+    }
+
+    public List<User> getAllUser() {
+        return (List<User>) userRepository.findAll();
     }
 
     public List<Card> getFilteredCard(int folderId, int[] cats) {
@@ -199,16 +203,17 @@ public class DeskService {
         // Card erstellen und cardRepository.save()
         Card card = cardRepository.findById(cardFormModel.getId()).get();
         Folder folder = folderRepository.findById(cardFormModel.getFolderId()).get();
+        User owner = userRepository.findById(cardFormModel.getOwnerId()).orElse(null);
         List<CardCategory> cardCategories = cardCategoryRepository.findAllByCardId(cardFormModel.getId());
 
         card.setQuestion(cardFormModel.getQuestion());
         card.setAnswer(cardFormModel.getAnswer());
         card.setFolder(folder);
+        card.setOwner(owner);
+
         cardRepository.save(card);
 
-        for(CardCategory cardCategory : cardCategories) {
-            cardCategoryRepository.delete(cardCategory);
-        }
+        cardCategoryRepository.deleteAll(cardCategories);
 
         if(cardFormModel.getCategoryId() != null){
             for (int catId : cardFormModel.getCategoryId()) {

@@ -16,5 +16,6 @@ public class CardFormModel{
         private String answer;
         private int folderId;
         private int[] categoryId;
+        private int ownerId;
 }
 
