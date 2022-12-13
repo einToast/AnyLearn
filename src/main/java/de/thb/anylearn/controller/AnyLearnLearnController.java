@@ -1,5 +1,6 @@
 package de.thb.anylearn.controller;
 
+import de.thb.anylearn.common.SupportFunctions;
 import de.thb.anylearn.service.DeskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

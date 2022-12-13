@@ -1,4 +1,4 @@
-package de.thb.anylearn.controller;
+package de.thb.anylearn.common;
 
 public class SupportFunctions {
 
