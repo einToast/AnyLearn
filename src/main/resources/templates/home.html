@@ -8,6 +8,14 @@
 </head>
 <body>
   <h1>Willkommen bei Anylearn</h1>
-  <a th:href="@{/show}">Alle Lernkarten anzeigen</a>
+  <form action="" method="POST">
+      <label for="user">Als Nutzer anmelden:</label>
+      <select name="userId" id="user">
+          <option value="0" >Admin</option>
+          <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
+          <option th:each="user: ${users}" th:value="${user.id}" th:text="${user.name}"></option>
+      </select>
+      <input type="submit" value="Anmelden">
+  </form>
 </body>
 </html>

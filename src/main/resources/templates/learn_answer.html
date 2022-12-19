@@ -12,13 +12,13 @@
 
 <p><div th:text="${card.answer}"></div></p>
 
-<form th:action="@{/learn/folder={folder}/cat={categories}/card={card}/0(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
+<form th:action="@{/learn/{currUserId}/folder={folder}/cat={categories}/card={card}/0(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
     <button class="btn btn-danger" type="submit">Falsch, nochmal.</button>
 </form>
-<form th:action="@{/learn/folder={folder}/cat={categories}/card={card}/1(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
+<form th:action="@{/learn/{currUserId}/folder={folder}/cat={categories}/card={card}/1(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
     <button class="btn btn-warning" type="submit">Richtig, schwer.</button>
 </form>
-<form th:action="@{/learn/folder={folder}/cat={categories}/card={card}/2(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
+<form th:action="@{/learn/{currUserId}/folder={folder}/cat={categories}/card={card}/2(folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
     <button class="btn btn-success" type="submit">Richtig, leicht.</button>
 </form>
 

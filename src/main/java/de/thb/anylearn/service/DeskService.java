@@ -42,33 +42,37 @@ public class DeskService {
         return (List<User>) userRepository.findAll();
     }
 
-    public List<Card> getFilteredCard(int folderId, int[] cats) {
+    public List<Card> getFilteredCard(int folderId, int[] cats, int userId) {
+        List<Card> cards;
         if (folderId == 0) {
             if (cats[0] == 0)  {
-                return getAllCard();
+                cards = getAllCard();
             } else {
                 //return null;
                 //return cardRepository.findAllByCategoriesId(cat);
-                return getFilteredByCategory(cats).stream().map(CardCategory::getCard).collect(Collectors.toList());
+                cards = new ArrayList<>(getFilteredByCategory(cats).stream().map(CardCategory::getCard).toList());
                 // Durch methode getFilteredByCategory() kommen Card-Category-Paare, mit Karten die in allen cats sind
                 // diese werden jetzt "gestream" in eine map, welche für jedes Paar die zugehörige Karte in eine Liste packt
             }
         } else {
             if (cats[0] == 0) {
-                return cardRepository.findAllByFolderId(folderId);
+                cards = cardRepository.findAllByFolderId(folderId);
             } else {
                 //return null;
                 //return cardRepository.findAllByFolderCategoryId(folderId, cat);
-                List<Card> cards_by_cat = getFilteredByCategory(cats).stream().map(CardCategory::getCard).collect(Collectors.toList());
-                for(int i = 0; i < cards_by_cat.size(); i++) {
-                    if (folderId != cards_by_cat.get(i).getFolder().getId()) {
-                        cards_by_cat.remove(i);
+                cards = getFilteredByCategory(cats).stream().map(CardCategory::getCard).collect(Collectors.toList());
+                for(int i = 0; i < cards.size(); i++) {
+                    if (folderId != cards.get(i).getFolder().getId()) {
+                        cards.remove(i);
                         i--;
                     }
                 }
-            return cards_by_cat;
+
             }
         }
+        if (userId != 0)
+            cards.removeIf(card -> (card.getOwner() != null && card.getOwner().getId() != userId));
+        return cards;
     }
 
     public List<CardCategory> getFilteredByCategory(int[] cats) {
@@ -103,9 +107,9 @@ public class DeskService {
      * @param categories list of categories
      * @return Id of the nextCard or 0 if no more cards
      */
-    public int getNextCardIdToLearn(int folderId, int[] categories) {
+    public int getNextCardIdToLearn(int folderId, int[] categories, int userId) {
         Date now = new Date();
-        List<Card> cardList = getFilteredCard(folderId, categories);
+        List<Card> cardList = getFilteredCard(folderId, categories, userId);
         for(Card c : cardList) {
             if(c.getNextTime() == null) {
                 c.setNextTime(now);

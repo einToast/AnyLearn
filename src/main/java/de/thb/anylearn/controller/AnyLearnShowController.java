@@ -2,6 +2,7 @@ package de.thb.anylearn.controller;
 
 import de.thb.anylearn.common.SupportFunctions;
 import de.thb.anylearn.controller.form.AnyLearnFormModel;
+import de.thb.anylearn.controller.form.UserFormModel;
 import de.thb.anylearn.service.DeskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,58 +21,49 @@ public class AnyLearnShowController {
     private final SupportFunctions supportFunctions = new SupportFunctions();
 
 
-    /**
-     * http://localhost:8080/
-     *
-     * @param model does something
-     * @return String for html
-     */
-    @GetMapping("show/folder={id}/cat={categories}")
-    public String getCards(@PathVariable("id") int id, @PathVariable("categories") int[] categories, Model model, AnyLearnFormModel form) {
+    @GetMapping("show/{userId}/folder={id}/cat={categories}")
+    public String getCards(@PathVariable("userId") int userId, @PathVariable("id") int id, @PathVariable("categories") int[] categories, Model model, AnyLearnFormModel form) {
 
-        model.addAttribute("cards1", deskService.getFilteredCard(id, categories));
+        model.addAttribute("cards1", deskService.getFilteredCard(id, categories, userId));
         model.addAttribute("folder1", deskService.getAllFolder());
         model.addAttribute("category1", deskService.getAllCategory());
         model.addAttribute("folderId", id);
         model.addAttribute("selectedCategories", categories);
+        model.addAttribute("userId", userId);
 
         return "cards";
     }
 
-    /**
-     * http://localhost:8080/
-     *
-     * @param model does something
-     * @return String for html
-     */
-    @PostMapping("show/folder={id}/cat={categories}")
-    public RedirectView postCards(Model model, AnyLearnFormModel form) {
+    @PostMapping("show/{userId}/folder={id}/cat={categories}")
+    public RedirectView postCards(@PathVariable("userId") int userId, Model model, AnyLearnFormModel form) {
         String cat = supportFunctions.arrayToUrlString(form.getCategoryId());
 
-        return new RedirectView("/show/folder=" + form.getFolderId() + "/cat=" + cat);
+        return new RedirectView("/show/" + userId + "/folder=" + form.getFolderId() + "/cat=" + cat);
     }
 
-    @PostMapping("show")
-    public RedirectView allCardsPost(Model model, AnyLearnFormModel form) {
+    @PostMapping("show/{userId}")
+    public RedirectView allCardsPost(@PathVariable("userId") int userId, Model model, AnyLearnFormModel form) {
         String cat = supportFunctions.arrayToUrlString(form.getCategoryId());
 
-        return new RedirectView("/show/folder=" + form.getFolderId() + "/cat=" + cat);
+        return new RedirectView("/show/ " + userId + "/folder=" + form.getFolderId() + "/cat=" + cat);
     }
 
-    @GetMapping("show")
-    public RedirectView allCardsGet(Model model, AnyLearnFormModel form) {
-        // TODO: Redirect auf / ausführen der Funktion getCards für Kontinuität -> Erledigt 22.11. (CD)
-        return new RedirectView("/show/folder=" + 0 + "/cat=" + 0);
+    @GetMapping("show/{userId}")
+    public RedirectView allCardsGet(@PathVariable("userId") int userId, Model model, AnyLearnFormModel form) {
+        return new RedirectView("/show/" + userId + "/folder=" + 0 + "/cat=" + 0);
     }
 
-    /**
-     * http://localhost:8080/
-     *
-     * @param model does something
-     * @return String for html
-     */
+
+    @PostMapping()
+    public RedirectView startPagePost(Model model, UserFormModel form) {
+
+        return new RedirectView("/show/" + form.getUserId());
+    }
+
     @GetMapping()
     public String startPage(Model model) {
+
+        model.addAttribute("users", deskService.getAllUser());
 
         return "home";
     }
