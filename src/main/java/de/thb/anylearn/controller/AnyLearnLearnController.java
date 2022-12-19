@@ -25,7 +25,7 @@ public class AnyLearnLearnController {
     }
 
     @GetMapping("learn/{userId}/folder={folderId}/cat={categories}/card={cardId}/{difficulty}")
-    public RedirectView reschedule(@PathVariable("userId") int userId, @PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId, @PathVariable("difficulty") int difficulty, Model model) {
+    public RedirectView reschedule(@PathVariable("userId") int userId, @PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId, @PathVariable("difficulty") int difficulty) {
 
         deskService.rescheduleCard(cardId, difficulty);
 
@@ -45,27 +45,21 @@ public class AnyLearnLearnController {
     }
 
     @PostMapping("learn/{userId}/folder={folderId}/cat={categories}/card={cardId}")
-    public RedirectView getAnswer(@PathVariable("userId") int userId, @PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId, Model model) {
+    public RedirectView getAnswer(@PathVariable("userId") int userId, @PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId) {
         String cat = supportFunctions.arrayToUrlString(categories);
         return new RedirectView("/learn/" + userId + "/folder=" + folderId + "/cat=" + cat + "/card=" + cardId + "/answer");
     }
 
     @GetMapping("learn/{userId}/folder={folderId}/cat={categories}/card={cardId}")
-    public String getCards(@PathVariable("userId") int userId, @PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, @PathVariable("cardId") int cardId, Model model) {
+    public String getCards(@PathVariable("userId") int userId, @PathVariable("cardId") int cardId, Model model) {
 
         model.addAttribute("card", deskService.getCardById(cardId));
         model.addAttribute("currUserId", userId);
         return "learn";
     }
 
-    /**
-     * http://localhost:8080/learn
-     *
-     * @param model does something
-     * @return String for html
-     */
     @GetMapping("learn/{userId}/folder={folderId}/cat={categories}")
-    public RedirectView nextCard(@PathVariable("userId") int userId, @PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories, Model model) {
+    public RedirectView nextCard(@PathVariable("userId") int userId, @PathVariable("folderId") int folderId, @PathVariable("categories") int[] categories) {
         int cardId = deskService.getNextCardIdToLearn(folderId, categories, userId);
         if (cardId == 0) {
             return new RedirectView("/learn/" + userId + "/finished");
@@ -77,7 +71,7 @@ public class AnyLearnLearnController {
     }
 
     @GetMapping("learn/{userId}")
-    public RedirectView nextCard(@PathVariable("userId") int userId, Model model) {
+    public RedirectView nextCard(@PathVariable("userId") int userId) {
         return new RedirectView("/learn/" + userId + "/folder=0/cat=0");
 
     }

@@ -3,7 +3,6 @@ package de.thb.anylearn.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor

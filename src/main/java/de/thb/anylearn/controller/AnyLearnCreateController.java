@@ -26,14 +26,14 @@ public class AnyLearnCreateController {
     }
 
     @PostMapping("create/{id}/card")
-    public RedirectView applyCard(@PathVariable("id") int userId, Model model, CardFormModel form) {
+    public RedirectView applyCard(@PathVariable("id") int userId, CardFormModel form) {
         deskService.addCard(form);
 
         return new RedirectView("/create/" + userId + "/finished");
     }
 
     @GetMapping("create/{userId}/finished")
-    public String showCreateFinished(@PathVariable("userId") int userId, Model model) {
+    public String showCreateFinished(Model model) {
         model.addAttribute("mode", "erstellt");
         return "cardFinished";
     }

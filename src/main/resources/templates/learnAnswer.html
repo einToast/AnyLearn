@@ -8,9 +8,9 @@
 
 </head>
 <body>
-<p><div th:text="${card.question}"></div></p>
+<p th:text="${card.question}"></p>
 
-<p><div th:text="${card.answer}"></div></p>
+<p th:text="${card.answer}"></p>
 
 <form th:action="@{/learn/{currUserId}/folder={folder}/cat={categories}/card={card}/0(currUserId=${currUserId}, folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
     <button class="btn btn-danger" type="submit">Falsch, nochmal.</button>
