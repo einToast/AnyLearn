@@ -7,7 +7,7 @@
 
 </head>
 <body>
-Herzlichen Glückwunsch, du hast alle Lernkarten gelernt!
-<a th:href="@{/}">Startseite</a>
+<p>Herzlichen Glückwunsch, du hast alle Lernkarten gelernt!</p>
+<a class="btn btn-primary" th:href="@{/show/{userId}/folder=0/cat=0(userId=${currUserId})}">Übersicht</a>
 </body>
 </html>

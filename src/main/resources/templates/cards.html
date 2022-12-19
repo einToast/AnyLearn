@@ -48,13 +48,13 @@
             <td th:text="${card.folder.name}"></td>
             <td><div th:each="cardcat: ${card.cardCategories}" th:text="${cardcat?.category.name}"></div></td>
             <td th:text="${card.owner?.name}"></td>
-            <td> <a th:href="@{/edit/{cardId}(cardId =${card.id})}">Edit</a></td>
+            <td> <a class="btn btn-warning" th:href="@{/edit/{userId}/{cardId}(userId = ${userId}, cardId =${card.id})}">Edit</a></td>
         </tr>
     </table>
 </div>
 <br>
 <a class="btn btn-secondary" th:href="@{/}">Zurück</a>
 <a class="btn btn-primary" th:href="@{/learn/{userId}/folder={folder}/cat={categories}(userId=${userId}, folder=${folderId}, categories=${selectedCategories})}">Diese Karten jetzt lernen</a>
-
+<a class="btn btn-success" th:href="@{/create/{userId}/card(userId=${userId})}">Neue Karte hinzufügen</a>
 </body>
 </html>

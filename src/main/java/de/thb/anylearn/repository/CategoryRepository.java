@@ -8,5 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 @RepositoryDefinition(domainClass = Category.class, idClass = Integer.class)
 public interface CategoryRepository extends CrudRepository<Category, Integer> {
+
 }
 

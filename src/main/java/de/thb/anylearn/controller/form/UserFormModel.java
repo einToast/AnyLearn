@@ -11,7 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserFormModel {
 
-
-
     private int userId;
 }

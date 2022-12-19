@@ -13,7 +13,6 @@ import java.util.List;
 @RepositoryDefinition(domainClass = Card.class, idClass = Integer.class)
 public interface CardRepository extends CrudRepository<Card, Integer> {
 
-
     @Query("SELECT c FROM Card c WHERE c.folder.id = :folderId")
     List<Card> findAllByFolderId(@Param("folderId") int folderId);
 

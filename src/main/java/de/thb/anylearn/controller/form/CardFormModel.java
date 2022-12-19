@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CardFormModel{
+public class CardFormModel {
 
-        private int id;
-        private String question;
-        private String answer;
-        private int folderId;
-        private int[] categoryId;
-        private int ownerId;
+    private int id;
+    private String question;
+    private String answer;
+    private int folderId;
+    private int[] categoryId;
+    private int ownerId;
 }
 

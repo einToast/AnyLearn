@@ -26,7 +26,7 @@ public class DeskService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<Card> getAllCard(){
+    public List<Card> getAllCard() {
         return (List<Card>) cardRepository.findAll();
     }
 
@@ -45,7 +45,7 @@ public class DeskService {
     public List<Card> getFilteredCard(int folderId, int[] cats, int userId) {
         List<Card> cards;
         if (folderId == 0) {
-            if (cats[0] == 0)  {
+            if (cats[0] == 0) {
                 cards = getAllCard();
             } else {
                 //return null;
@@ -61,7 +61,7 @@ public class DeskService {
                 //return null;
                 //return cardRepository.findAllByFolderCategoryId(folderId, cat);
                 cards = getFilteredByCategory(cats).stream().map(CardCategory::getCard).collect(Collectors.toList());
-                for(int i = 0; i < cards.size(); i++) {
+                for (int i = 0; i < cards.size(); i++) {
                     if (folderId != cards.get(i).getFolder().getId()) {
                         cards.remove(i);
                         i--;
@@ -78,12 +78,12 @@ public class DeskService {
     public List<CardCategory> getFilteredByCategory(int[] cats) {
         List<CardCategory> cardList = cardCategoryRepository.findAllByCategoryId(cats[0]);  // nur Card-Category-Paare, mit Paaren, wo KategorieId = cat[0] ist
 
-        for( int j = 0; j < cardList.size(); j++) {
+        for (int j = 0; j < cardList.size(); j++) {
             // Jetzt suchen wir alle Card-Category-Tupel, bei denen KartenId = (j. KartenId von vorheriger Liste)
             // --> Liste mit Card-Category-Tupeln einer einzigen Karten, bei denen die Karte mind. in Katergorie cat[0] ist
             List<CardCategory> allEntriesOfOneCard = cardCategoryRepository.findAllByCardId(cardList.get(j).getCard().getId());
             // jetzt checken, ob die Karte auch zu den anderen gewünschten Kategorien gehört
-            for(int i = 1; i < cats.length; i++) {
+            for (int i = 1; i < cats.length; i++) {
                 boolean found = false;
                 for (CardCategory cardCategory : allEntriesOfOneCard) {
                     if (cardCategory.getCategory().getId() == cats[i]) {
@@ -91,7 +91,7 @@ public class DeskService {
                         break;
                     }
                 }
-                if(!found) {
+                if (!found) {
                     cardList.remove(j);
                     j--;
                     break;
@@ -102,16 +102,15 @@ public class DeskService {
     }
 
     /**
-     *
-     * @param folderId id of the folder
+     * @param folderId   id of the folder
      * @param categories list of categories
      * @return Id of the nextCard or 0 if no more cards
      */
     public int getNextCardIdToLearn(int folderId, int[] categories, int userId) {
         Date now = new Date();
         List<Card> cardList = getFilteredCard(folderId, categories, userId);
-        for(Card c : cardList) {
-            if(c.getNextTime() == null) {
+        for (Card c : cardList) {
+            if (c.getNextTime() == null) {
                 c.setNextTime(now);
             }
         }
@@ -197,7 +196,8 @@ public class DeskService {
     public int[] getAllCategoryIdFromCard(int cardId) {
         return getAllCategoriesFromCard(cardId).stream().mapToInt(Category::getId).toArray();
     }
-    public List<Category> getAllCategoriesFromCard(int cardId){
+
+    public List<Category> getAllCategoriesFromCard(int cardId) {
         return cardCategoryRepository.findAllByCardId(cardId).stream().map(CardCategory::getCategory).collect(Collectors.toList());
     }
 
@@ -219,12 +219,38 @@ public class DeskService {
 
         cardCategoryRepository.deleteAll(cardCategories);
 
-        if(cardFormModel.getCategoryId() != null){
+        if (cardFormModel.getCategoryId() != null) {
             for (int catId : cardFormModel.getCategoryId()) {
                 Category category = categoryRepository.findById(catId).get();
                 CardCategory cardCategory = new CardCategory(card, category);
                 cardCategoryRepository.save(cardCategory);
             }
         }
+    }
+
+    public void addCard(CardFormModel cardFormModel) {
+        Card card = new Card();
+        Folder folder = folderRepository.findById(cardFormModel.getFolderId()).get();
+        User owner = userRepository.findById(cardFormModel.getOwnerId()).orElse(null);
+
+        card.setQuestion(cardFormModel.getQuestion());
+        card.setAnswer(cardFormModel.getAnswer());
+        card.setFolder(folder);
+        card.setOwner(owner);
+
+        cardRepository.save(card);
+
+        if (cardFormModel.getCategoryId() != null) {
+            for (int catId : cardFormModel.getCategoryId()) {
+                Category category = categoryRepository.findById(catId).get();
+                CardCategory cardCategory = new CardCategory(card, category);
+                cardCategoryRepository.save(cardCategory);
+            }
+        }
+    }
+
+    public void deleteCard(int id) {
+        cardCategoryRepository.deleteAll(cardCategoryRepository.findAllByCardId(id));
+        cardRepository.deleteById(id);
     }
 }

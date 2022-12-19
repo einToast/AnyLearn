@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Builder
 @ToString
 @Entity
-public class CardCategory{
+public class CardCategory {
 
     public CardCategory(Card card, Category category) {
         this.card = card;

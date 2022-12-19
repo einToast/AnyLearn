@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AnyLearnFormModel {
 
-
-
     private int folderId = 0;
     private int[] categoryId;
 }
