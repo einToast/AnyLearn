@@ -55,14 +55,16 @@ public class AnyLearnEditController {
     }
 
     @GetMapping("delete/{userId}/finished")
-    public String showDeleteFinished(Model model) {
+    public String showDeleteFinished(@PathVariable("userId") int userId, Model model) {
         model.addAttribute("mode", "gelöscht");
+        model.addAttribute("userId", userId);
         return "cardFinished";
     }
 
     @GetMapping("edit/{userId}/finished")
-    public String showEditFinished(Model model) {
+    public String showEditFinished(@PathVariable("userId") int userId, Model model) {
         model.addAttribute("mode", "bearbeitet");
+        model.addAttribute("userId", userId);
         return "cardFinished";
     }
 }

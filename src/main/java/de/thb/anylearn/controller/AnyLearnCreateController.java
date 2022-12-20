@@ -33,8 +33,9 @@ public class AnyLearnCreateController {
     }
 
     @GetMapping("create/{userId}/finished")
-    public String showCreateFinished(Model model) {
+    public String showCreateFinished(@PathVariable("userId") int userId, Model model) {
         model.addAttribute("mode", "erstellt");
+        model.addAttribute("userId", userId);
         return "cardFinished";
     }
 }
