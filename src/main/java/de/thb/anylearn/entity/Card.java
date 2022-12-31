@@ -34,6 +34,9 @@ public class Card {
     @ManyToOne
     private User owner;
 
+    @OneToMany(mappedBy = "card", fetch = FetchType.LAZY)
+    private List<CardUser> cardUsers;
+
     @OneToMany(mappedBy = "card", fetch = FetchType.EAGER)
     private List<CardCategory> cardCategories;
 //    @ManyToMany

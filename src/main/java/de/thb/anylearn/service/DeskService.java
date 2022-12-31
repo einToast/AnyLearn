@@ -24,6 +24,9 @@ public class DeskService {
     private CardCategoryRepository cardCategoryRepository;
 
     @Autowired
+    private CardUserRepository cardUserRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     public List<Card> getAllCard() {
@@ -210,6 +213,8 @@ public class DeskService {
         User owner = userRepository.findById(cardFormModel.getOwnerId()).orElse(null);
         List<CardCategory> cardCategories = cardCategoryRepository.findAllByCardId(cardFormModel.getId());
 
+        User oldOwner = card.getOwner();
+
         card.setQuestion(cardFormModel.getQuestion());
         card.setAnswer(cardFormModel.getAnswer());
         card.setFolder(folder);
@@ -226,6 +231,15 @@ public class DeskService {
                 cardCategoryRepository.save(cardCategory);
             }
         }
+
+        // Update card_user_table
+        if (oldOwner != null) {
+            cardUserRepository.deleteAll(cardUserRepository.findByCardUserId(card.getId(), oldOwner.getId()));
+
+            if (owner != null)
+                cardUserRepository.save(new CardUser(card, owner));
+        }
+
     }
 
     public void addCard(CardFormModel cardFormModel) {
@@ -247,10 +261,17 @@ public class DeskService {
                 cardCategoryRepository.save(cardCategory);
             }
         }
+
+        // add to card_user_table
+        if (owner != null) {
+            CardUser cardUser = new CardUser(card, owner);
+            cardUserRepository.save(cardUser);
+        }
     }
 
     public void deleteCard(int id) {
         cardCategoryRepository.deleteAll(cardCategoryRepository.findAllByCardId(id));
+        cardUserRepository.deleteAll(cardUserRepository.findAllByCardId(id));
         cardRepository.deleteById(id);
     }
 }

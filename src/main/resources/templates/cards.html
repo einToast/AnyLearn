@@ -40,6 +40,7 @@
             <th>folder</th>
             <th>category</th>
             <th>owner</th>
+            <th>users</th>
             <th></th>
         </tr>
         <tr th:each="card: ${cards1}">
@@ -48,7 +49,8 @@
             <td th:text="${card.folder.name}"></td>
             <td><div th:each="cardcat: ${card.cardCategories}" th:text="${cardcat?.category.name}"></div></td>
             <td th:text="${card.owner?.name}"></td>
-            <td> <a class="btn btn-warning" th:href="@{/edit/{userId}/{cardId}(userId = ${userId}, cardId =${card.id})}">Edit</a></td>
+            <td><div th:each="carduser: ${card.cardUsers}" th:text="${carduser?.user.name}"></div></td>
+            <td><div th:if="${card.owner?.id == userId or userId == 0}"> <a class="btn btn-warning" th:href="@{/edit/{userId}/{cardId}(userId = ${userId}, cardId =${card.id})}">Edit</a></div></td>
         </tr>
     </table>
 </div>
