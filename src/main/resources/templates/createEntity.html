@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Create</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <h1>Create</h1>
+  <form action="" method="POST">
+
+    <label for="editedName">Name</label>
+    <input name="name" id="editedName" type ="text">
+    <br><br>
+
+    <br>
+    <a class="btn btn-secondary" th:href="@{/show/{userId}/{name}(userId=${userId}, name=${name})}">Abbrechen</a>
+    <input class="btn btn-success" type="submit" value="Erstellen">
+  </form>
+</body>
+</html>

@@ -22,7 +22,7 @@ public class AnyLearnShowController {
 
 
     @GetMapping("show/{userId}/folder={id}/cat={categories}")
-    public String getCards(@PathVariable("userId") int userId, @PathVariable("id") int id, @PathVariable("categories") int[] categories, Model model, AnyLearnFormModel form) {
+    public String getCards(@PathVariable("userId") int userId, @PathVariable("id") int id, @PathVariable("categories") int[] categories, Model model) {
 
         model.addAttribute("cards1", deskService.getFilteredCard(id, categories, userId));
         model.addAttribute("folder1", deskService.getAllFolder());
@@ -35,27 +35,47 @@ public class AnyLearnShowController {
     }
 
     @PostMapping("show/{userId}/folder={id}/cat={categories}")
-    public RedirectView postCards(@PathVariable("userId") int userId, Model model, AnyLearnFormModel form) {
+    public RedirectView postCards(@PathVariable("userId") int userId, AnyLearnFormModel form) {
         String cat = supportFunctions.arrayToUrlString(form.getCategoryId());
 
         return new RedirectView("/show/" + userId + "/folder=" + form.getFolderId() + "/cat=" + cat);
     }
 
     @PostMapping("show/{userId}")
-    public RedirectView allCardsPost(@PathVariable("userId") int userId, Model model, AnyLearnFormModel form) {
+    public RedirectView allCardsPost(@PathVariable("userId") int userId, AnyLearnFormModel form) {
         String cat = supportFunctions.arrayToUrlString(form.getCategoryId());
 
         return new RedirectView("/show/ " + userId + "/folder=" + form.getFolderId() + "/cat=" + cat);
     }
 
     @GetMapping("show/{userId}")
-    public RedirectView allCardsGet(@PathVariable("userId") int userId, Model model, AnyLearnFormModel form) {
+    public RedirectView allCardsGet(@PathVariable("userId") int userId) {
         return new RedirectView("/show/" + userId + "/folder=" + 0 + "/cat=" + 0);
     }
 
+    @GetMapping("show/{userId}/users")
+    public String allUser(@PathVariable("userId") int userId, Model model) {
+        model.addAttribute("name", "Users");
+        model.addAttribute("entities", deskService.getAllUser());
+        return "showEntities";
+    }
+
+    @GetMapping("show/{userId}/folders")
+    public String allFolder(@PathVariable("userId") int userId, Model model) {
+        model.addAttribute("name", "Folders");
+        model.addAttribute("entities", deskService.getAllFolder());
+        return "showEntities";
+    }
+
+    @GetMapping("show/{userId}/categories")
+    public String allCategories(@PathVariable("userId") int userId, Model model) {
+        model.addAttribute("name", "Categories");
+        model.addAttribute("entities", deskService.getAllCategory());
+        return "showEntities";
+    }
 
     @PostMapping()
-    public RedirectView startPagePost(Model model, UserFormModel form) {
+    public RedirectView startPagePost(UserFormModel form) {
 
         return new RedirectView("/show/" + form.getUserId());
     }

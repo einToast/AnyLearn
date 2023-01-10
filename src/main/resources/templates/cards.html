@@ -50,13 +50,19 @@
             <td><div th:each="cardcat: ${card.cardCategories}" th:text="${cardcat?.category.name}"></div></td>
             <td th:text="${card.owner?.name}"></td>
             <td><div th:each="carduser: ${card.cardUsers}" th:text="${carduser?.user.name}"></div></td>
-            <td><div th:if="${card.owner?.id == userId or userId == 0}"> <a class="btn btn-warning" th:href="@{/edit/{userId}/{cardId}(userId = ${userId}, cardId =${card.id})}">Edit</a></div></td>
+            <td><div th:if="${card.owner?.id == userId or userId == 0}"> <a class="btn btn-warning" th:href="@{/edit/{userId}/cards/{cardId}(userId = ${userId}, cardId =${card.id})}">Edit</a></div></td>
         </tr>
     </table>
 </div>
 <br>
-<a class="btn btn-secondary" th:href="@{/}">Zurück</a>
+<a class="btn btn-secondary" th:href="@{/}">Nutzer wählen</a>
 <a class="btn btn-primary" th:href="@{/learn/{userId}/folder={folder}/cat={categories}(userId=${userId}, folder=${folderId}, categories=${selectedCategories})}">Diese Karten jetzt lernen</a>
 <a class="btn btn-success" th:href="@{/create/{userId}/card(userId=${userId})}">Neue Karte hinzufügen</a>
+<div th:if="${userId == 0}">
+    <br><br>
+    <a class="btn btn-info" th:href="@{/show/{userId}/users(userId=${userId})}">Nutzer anzeigen</a>
+    <a class="btn btn-info" th:href="@{/show/{userId}/folders(userId=${userId})}">Ordner anzeigen</a>
+    <a class="btn btn-info" th:href="@{/show/{userId}/categories(userId=${userId})}">Kategorien anzeigen</a>
+</div>
 </body>
 </html>

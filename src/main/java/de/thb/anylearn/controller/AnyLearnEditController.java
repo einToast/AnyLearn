@@ -1,6 +1,7 @@
 package de.thb.anylearn.controller;
 
 import de.thb.anylearn.controller.form.CardFormModel;
+import de.thb.anylearn.controller.form.EntityFormModel;
 import de.thb.anylearn.service.DeskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ public class AnyLearnEditController {
     @Autowired
     private DeskService deskService;
 
-    @GetMapping("edit/{userId}/{id}")
+    @GetMapping("edit/{userId}/cards/{id}")
     public String editCard(@PathVariable("userId") int userId, @PathVariable("id") int id, Model model) {
 
         model.addAttribute("card", deskService.getCardById(id));
@@ -29,14 +30,14 @@ public class AnyLearnEditController {
         return "editCard";
     }
 
-    @PostMapping("edit/{userId}/{id}")
+    @PostMapping("edit/{userId}/cards/{id}")
     public RedirectView editCard(@PathVariable("userId") int userId, CardFormModel form) {
         deskService.updateCard(form);
 
-        return new RedirectView("/edit/" + userId + "/finished");
+        return new RedirectView("/edit/" + userId + "/cards/finished");
     }
 
-    @GetMapping("delete/{userId}/{id}")
+    @GetMapping("delete/{userId}/cards/{id}")
     public String deleteCard(@PathVariable("userId") int userId, @PathVariable("id") int id, Model model) {
 
         model.addAttribute("card", deskService.getCardById(id));
@@ -48,23 +49,59 @@ public class AnyLearnEditController {
         return "deleteCard";
     }
 
-    @PostMapping("delete/{userId}/{id}")
+    @PostMapping("delete/{userId}/cards/{id}")
     public RedirectView deleteCard(@PathVariable("userId") int userId, @PathVariable("id") int id) {
         deskService.deleteCard(id);
-        return new RedirectView("/delete/" + userId + "/finished");
+        return new RedirectView("/delete/" + userId + "/cards/finished");
     }
 
-    @GetMapping("delete/{userId}/finished")
+    @GetMapping("delete/{userId}/cards/finished")
     public String showDeleteFinished(@PathVariable("userId") int userId, Model model) {
         model.addAttribute("mode", "gelöscht");
         model.addAttribute("userId", userId);
         return "cardFinished";
     }
 
-    @GetMapping("edit/{userId}/finished")
+    @GetMapping("edit/{userId}/cards/finished")
     public String showEditFinished(@PathVariable("userId") int userId, Model model) {
         model.addAttribute("mode", "bearbeitet");
         model.addAttribute("userId", userId);
         return "cardFinished";
     }
+
+    @GetMapping("edit/{userId}/{name}/{id}")
+    public String editEntities(@PathVariable("userId") int userId, @PathVariable("name") String name, @PathVariable("id") int id, Model model) {
+        switch (name){
+            case "users" -> model.addAttribute("entity", deskService.getUserById(id));
+            case "folders" -> model.addAttribute("entity", deskService.getFolderById(id));
+            case "categories" -> model.addAttribute("entity", deskService.getCategoryById(id));
+        }
+        model.addAttribute("userId", userId);
+        model.addAttribute("name", name);
+        return "editEntity";
+    }
+
+    @PostMapping("edit/{userId}/{name}/{id}")
+    public RedirectView editEntities(@PathVariable("userId") int userId, @PathVariable("name") String name, @PathVariable("id") int id, EntityFormModel form) {
+        switch (name){
+            case "users" -> deskService.updateUser(form);
+            case "folders" -> deskService.updateFolder(form);
+            case "categories" -> deskService.updateCategory(form);
+        }
+        return new RedirectView("/edit/" + userId + "/" + name + "/finished");
+    }
+
+    @GetMapping("edit/{userId}/{name}/finished")
+    public String showEditFinished(@PathVariable("userId") int userId, @PathVariable("name") String name, Model model) {
+        switch (name){
+            case "users" -> model.addAttribute("name", "den Nutzer");
+            case "folders" -> model.addAttribute("name", "den Ordner");
+            case "categories" -> model.addAttribute("name", "die Kategorie");
+        }
+
+        model.addAttribute("mode", "bearbeitet");
+        model.addAttribute("userId", userId);
+        return "entityFinished";
+    }
+
 }

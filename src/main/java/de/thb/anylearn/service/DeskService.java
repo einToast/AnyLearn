@@ -1,6 +1,7 @@
 package de.thb.anylearn.service;
 
 import de.thb.anylearn.controller.form.CardFormModel;
+import de.thb.anylearn.controller.form.EntityFormModel;
 import de.thb.anylearn.entity.*;
 import de.thb.anylearn.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+
+//To-do: DeskService sollte irgendwann auch mal aufgeteilt werden
 public class DeskService {
     @Autowired
     private CardRepository cardRepository;
@@ -51,8 +54,6 @@ public class DeskService {
             if (cats[0] == 0) {
                 cards = getAllCard();
             } else {
-                //return null;
-                //return cardRepository.findAllByCategoriesId(cat);
                 cards = new ArrayList<>(getFilteredByCategory(cats).stream().map(CardCategory::getCard).toList());
                 // Durch methode getFilteredByCategory() kommen Card-Category-Paare, mit Karten die in allen cats sind
                 // diese werden jetzt "gestream" in eine map, welche für jedes Paar die zugehörige Karte in eine Liste packt
@@ -61,8 +62,6 @@ public class DeskService {
             if (cats[0] == 0) {
                 cards = cardRepository.findAllByFolderId(folderId);
             } else {
-                //return null;
-                //return cardRepository.findAllByFolderCategoryId(folderId, cat);
                 cards = getFilteredByCategory(cats).stream().map(CardCategory::getCard).collect(Collectors.toList());
                 for (int i = 0; i < cards.size(); i++) {
                     if (folderId != cards.get(i).getFolder().getId()) {
@@ -273,5 +272,54 @@ public class DeskService {
         cardCategoryRepository.deleteAll(cardCategoryRepository.findAllByCardId(id));
         cardUserRepository.deleteAll(cardUserRepository.findAllByCardId(id));
         cardRepository.deleteById(id);
+    }
+
+    public User getUserById(int id) {
+        //findById gibt nur Optional<> zurück, deshalb orElse(null)
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public Folder getFolderById(int id) {
+        return folderRepository.findById(id).orElse(null);
+    }
+
+    public Category getCategoryById(int id) {
+        return categoryRepository.findById(id).orElse(null);
+    }
+
+    public void updateUser(EntityFormModel form) {
+        User user = userRepository.findById(form.getId()).get();
+        user.setName(form.getName());
+        userRepository.save(user);
+    }
+
+    public void updateFolder(EntityFormModel form) {
+        Folder folder = folderRepository.findById(form.getId()).get();
+        folder.setName(form.getName());
+        folderRepository.save(folder);
+    }
+
+    public void updateCategory(EntityFormModel form) {
+        Category category = categoryRepository.findById(form.getId()).get();
+        category.setName(form.getName());
+        categoryRepository.save(category);
+    }
+
+    public void addUser(EntityFormModel form) {
+        User user = new User();
+        user.setName(form.getName());
+        userRepository.save(user);
+    }
+
+    public void addFolder(EntityFormModel form) {
+        Folder folder = new Folder();
+        folder.setName(form.getName());
+        folderRepository.save(folder);
+    }
+
+    public void addCategory(EntityFormModel form) {
+        Category category = new Category();
+        category.setName(form.getName());
+        categoryRepository.save(category);
     }
 }

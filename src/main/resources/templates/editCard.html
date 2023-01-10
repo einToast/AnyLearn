@@ -43,7 +43,7 @@
     </select>
     <br>
     <a class="btn btn-secondary" th:href="@{/show/{userId}/folder=0/cat=0(userId=${userId})}">Abbrechen</a>
-    <a class="btn btn-danger" th:href="@{/delete/{userId}/{cardId}(userId=${userId}, cardId=${card.id})}">Löschen</a>
+    <a class="btn btn-danger" th:href="@{/delete/{userId}/cards/{cardId}(userId=${userId}, cardId=${card.id})}">Löschen</a>
     <input class="btn btn-success" type="submit" value="Change">
   </form>
 </body>
