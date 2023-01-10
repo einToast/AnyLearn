@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+</head>
+<body>
+<p> Du konntest <span th:text="${name}"></span> <span th:text="${mode}"></span> nicht löschen, da ihm noch Karteikarten angehören.</p>
+<a class="btn btn-primary" th:href="@{/show/{userId}/{name}(userId=${userId}, name=${name1})}">Übersicht</a>
+</body>
+</html>

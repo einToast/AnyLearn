@@ -50,7 +50,7 @@
             <td><div th:each="cardcat: ${card.cardCategories}" th:text="${cardcat?.category.name}"></div></td>
             <td th:text="${card.owner?.name}"></td>
             <td><div th:each="carduser: ${card.cardUsers}" th:text="${carduser?.user.name}"></div></td>
-            <td><div th:if="${card.owner?.id == userId or userId == 0}"> <a class="btn btn-warning" th:href="@{/edit/{userId}/cards/{cardId}(userId = ${userId}, cardId =${card.id})}">Edit</a></div></td>
+            <td th:if="${card.owner?.id == userId or userId == 0}"><a class="btn btn-warning" th:href="@{/edit/{userId}/cards/{cardId}(userId = ${userId}, cardId =${card.id})}">Edit</a></td>
         </tr>
     </table>
 </div>

@@ -14,4 +14,6 @@ public interface CardRepository extends CrudRepository<Card, Integer> {
     @Query("SELECT c FROM Card c WHERE c.folder.id = :folderId")
     List<Card> findAllByFolderId(@Param("folderId") int folderId);
 
+    @Query("SELECT c FROM Card c WHERE c.owner.id = :ownerId")
+    List<Card> findAllByOwnerId(@Param("ownerId") int ownerId);
 }

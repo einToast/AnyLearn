@@ -56,17 +56,17 @@ public class AnyLearnEditController {
     }
 
     @GetMapping("delete/{userId}/cards/finished")
-    public String showDeleteFinished(@PathVariable("userId") int userId, Model model) {
+    public String showDeleteCardFinished(@PathVariable("userId") int userId, Model model) {
         model.addAttribute("mode", "gelöscht");
         model.addAttribute("userId", userId);
-        return "cardFinished";
+        return "finishedCard";
     }
 
     @GetMapping("edit/{userId}/cards/finished")
-    public String showEditFinished(@PathVariable("userId") int userId, Model model) {
+    public String showEditCardFinished(@PathVariable("userId") int userId, Model model) {
         model.addAttribute("mode", "bearbeitet");
         model.addAttribute("userId", userId);
-        return "cardFinished";
+        return "finishedCard";
     }
 
     @GetMapping("edit/{userId}/{name}/{id}")
@@ -82,7 +82,7 @@ public class AnyLearnEditController {
     }
 
     @PostMapping("edit/{userId}/{name}/{id}")
-    public RedirectView editEntities(@PathVariable("userId") int userId, @PathVariable("name") String name, @PathVariable("id") int id, EntityFormModel form) {
+    public RedirectView editEntity(@PathVariable("userId") int userId, @PathVariable("name") String name, @PathVariable("id") int id, EntityFormModel form) {
         switch (name){
             case "users" -> deskService.updateUser(form);
             case "folders" -> deskService.updateFolder(form);
@@ -92,7 +92,7 @@ public class AnyLearnEditController {
     }
 
     @GetMapping("edit/{userId}/{name}/finished")
-    public String showEditFinished(@PathVariable("userId") int userId, @PathVariable("name") String name, Model model) {
+    public String showEditEntityFinished(@PathVariable("userId") int userId, @PathVariable("name") String name, Model model) {
         switch (name){
             case "users" -> model.addAttribute("name", "den Nutzer");
             case "folders" -> model.addAttribute("name", "den Ordner");
@@ -101,7 +101,61 @@ public class AnyLearnEditController {
 
         model.addAttribute("mode", "bearbeitet");
         model.addAttribute("userId", userId);
-        return "entityFinished";
+        model.addAttribute("name1", name);
+        return "finishedEntity";
+    }
+
+    @GetMapping("delete/{userId}/{name}/{id}")
+    public String deleteEntity(@PathVariable("userId") int userId, @PathVariable("name") String name, @PathVariable("id") int id, Model model) {
+        switch (name){
+            case "users" -> model.addAttribute("entity", deskService.getUserById(id));
+            case "folders" -> model.addAttribute("entity", deskService.getFolderById(id));
+            case "categories" -> model.addAttribute("entity", deskService.getCategoryById(id));
+        }
+        model.addAttribute("userId", userId);
+        model.addAttribute("name", name);
+        return "deleteEntity";
+    }
+
+    @PostMapping("delete/{userId}/{name}/{id}")
+    public RedirectView deleteEntity(@PathVariable("userId") int userId, @PathVariable("name") String name, @PathVariable("id") int id) {
+        boolean success = true;
+        switch (name){
+            case "users" -> deskService.deleteUser(id);
+            case "folders" -> success = deskService.deleteFolder(id);
+            case "categories" -> deskService.deleteCategory(id);
+        }
+        if (success) {
+            return new RedirectView("/delete/" + userId + "/" + name + "/finished");
+        } else {
+            return new RedirectView("/delete/" + userId + "/" + name + "/failed");
+        }
+    }
+
+    @GetMapping("delete/{userId}/{name}/finished")
+    public String showDeleteEntityFinished(@PathVariable("userId") int userId, @PathVariable("name") String name, Model model) {
+        switch (name){
+            case "users" -> model.addAttribute("name", "den Nutzer");
+            case "folders" -> model.addAttribute("name", "den Ordner");
+            case "categories" -> model.addAttribute("name", "die Kategorie");
+        }
+
+        model.addAttribute("mode", "gelöscht");
+        model.addAttribute("userId", userId);
+        model.addAttribute("name1", name);
+        return "finishedEntity";
+    }
+
+    @GetMapping("delete/{userId}/{name}/failed")
+    public String showDeleteEntityFailed(@PathVariable("userId") int userId, @PathVariable("name") String name, Model model) {
+        switch (name){
+            case "folders" -> model.addAttribute("name", "den Ordner");
+        }
+
+        model.addAttribute("userId", userId);
+        model.addAttribute("name1", name);
+
+        return "failedEntity";
     }
 
 }

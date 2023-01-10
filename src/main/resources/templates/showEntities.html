@@ -15,17 +15,24 @@
         <tr>
             <th>id</th>
             <th>name</th>
-            <th></th>
+            <th th:if="${userId == 0}"></th>
         </tr>
         <tr th:each="entity: ${entities}">
             <td th:text="${entity.id}"></td>
             <td th:text="${entity.name}"></td>
-            <td><div th:if="${userId == 0}"> <a class="btn btn-warning" th:href="@{/edit/{userId}/{name}/{entityId} (userId = ${userId}, name = ${#strings.toLowerCase(name)}, entityId = ${entity.id})}">Edit</a></div></td>
+            <td th:if="${userId == 0}"><a class="btn btn-warning" th:href="@{/edit/{userId}/{name}/{entityId} (userId = ${userId}, name = ${#strings.toLowerCase(name)}, entityId = ${entity.id})}">Edit</a></td>
         </tr>
     </table>
 </div>
 <br>
 <a class="btn btn-secondary" th:href="@{/}">Nutzer wählen</a>
-<a class="btn btn-success" th:href="@{/create/{userId}/{name}(userId=${userId}, name=${#strings.toLowerCase(name)})}">Erstellen</a>
+<a class="btn btn-success" th:if="${userId == 0}" th:href="@{/create/{userId}/{name}(userId=${userId}, name=${#strings.toLowerCase(name)})}">Erstellen</a>
+<br><br>
+<div th:if="${userId == 0}">
+    <a class="btn btn-info" th:href="@{/show/{userId}(userId=${userId})}">Karteikarten anzeigen</a>
+    <a class="btn btn-info" th:if="${name != 'Users'}" th:href="@{/show/{userId}/users(userId=${userId})}">Nutzer anzeigen</a>
+    <a class="btn btn-info" th:if="${name != 'Folders'}" th:href="@{/show/{userId}/folders(userId=${userId})}">Ordner anzeigen</a>
+    <a class="btn btn-info" th:if="${name != 'Categories'}" th:href="@{/show/{userId}/categories(userId=${userId})}">Kategorien anzeigen</a>
+</div>
 </body>
 </html>

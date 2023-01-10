@@ -37,7 +37,7 @@ public class AnyLearnCreateController {
     public String showCreateFinished(@PathVariable("userId") int userId, Model model) {
         model.addAttribute("mode", "erstellt");
         model.addAttribute("userId", userId);
-        return "cardFinished";
+        return "finishedCard";
     }
 
     @GetMapping("create/{userId}/{name}")
@@ -68,6 +68,6 @@ public class AnyLearnCreateController {
         model.addAttribute("name1", name);
         model.addAttribute("mode", "erstellt");
         model.addAttribute("userId", userId);
-        return "entityFinished";
+        return "finishedEntity";
     }
 }

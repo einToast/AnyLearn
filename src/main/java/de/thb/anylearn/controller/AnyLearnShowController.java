@@ -31,7 +31,7 @@ public class AnyLearnShowController {
         model.addAttribute("selectedCategories", categories);
         model.addAttribute("userId", userId);
 
-        return "cards";
+        return "showCards";
     }
 
     @PostMapping("show/{userId}/folder={id}/cat={categories}")

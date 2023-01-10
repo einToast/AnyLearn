@@ -322,4 +322,26 @@ public class DeskService {
         category.setName(form.getName());
         categoryRepository.save(category);
     }
+
+    public void deleteUser(int id) {
+        for(Card card : cardRepository.findAllByOwnerId(id)) {
+            card.setOwner(null);
+            cardRepository.save(card);
+        }
+        cardUserRepository.deleteAll(cardUserRepository.findAllByUserId(id));
+        userRepository.deleteById(id);
+    }
+
+    public boolean deleteFolder(int id) {
+        if (cardRepository.findAllByFolderId(id).size() == 0) {
+            folderRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public void deleteCategory(int id) {
+        cardCategoryRepository.deleteAll(cardCategoryRepository.findAllByCategoryId(id));
+        categoryRepository.deleteById(id);
+    }
 }
