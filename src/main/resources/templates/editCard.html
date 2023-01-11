@@ -2,11 +2,11 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Edit</title>
+  <title>AnyLearn Bearbeiten</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-  <h1>Edit</h1>
+  <h1>Lernkarte bearbeiten</h1>
   <form action="" method="POST">
     <label for="idId">ID</label>
       <input name = "id" id = "idId" type ="text" disabled th:value = "${card.id}">
@@ -34,16 +34,24 @@
                 th:selected="${#lists.contains(selectedCategories, category.id)}"></option>
       </select>
     <br>
-    <label for="users">Owner:</label>
-    <select name="ownerId" id="users">
+    <label for="owner">Owner:</label>
+    <select name="ownerId" id="owner">
       <option value="0" >[Niemand]</option>
       <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
-      <option th:each="user: ${owner}" th:value="${user.id}" th:text="${user.name}"
-              th:selected="${card.owner?.id eq user.id}"></option>
+      <option th:each="user1: ${allUser}" th:value="${user1.id}" th:text="${user1.name}"
+              th:selected="${card.owner?.id eq user1.id}"></option>
     </select>
     <br>
-    <a class="btn btn-secondary" th:href="@{/show/{userId}/folder=0/cat=0(userId=${userId})}">Abbrechen</a>
-    <a class="btn btn-danger" th:href="@{/delete/{userId}/cards/{cardId}(userId=${userId}, cardId=${card.id})}">Löschen</a>
+    <label for="user">Choose a Users, which can see and learn card:</label>
+    <select name="userId" id="user" multiple="multiple">
+      <option th:each="user: ${allUser}" th:value="${user.id}" th:text="${user.name}"
+              th:selected="${#lists.contains(sharedUsersId, user.id)}"></option>
+    </select>
+    <br>
+    <font color="red">Achtung: Beim Bearbeiten der Karte wird der Fortschritt von allen Usern für diese Karte zurückgesetzt!</font>
+    <br>
+    <a class="btn btn-secondary" th:href="@{/show/{currUserId}/folder=0/cat=0(currUserId=${currUserId})}">Abbrechen</a>
+    <a class="btn btn-danger" th:href="@{/delete/{currUserId}/cards/{cardId}(currUserId=${currUserId}, cardId=${card.id})}">Löschen</a>
     <input class="btn btn-success" type="submit" value="Change">
   </form>
 </body>

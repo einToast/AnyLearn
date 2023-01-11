@@ -2,23 +2,33 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Edit</title>
+  <title>AnyLearn Bearbeiten - Admin</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-  <h1>Edit</h1>
+  <th:block th:switch="${name}">
+    <div th:case="'folders'">
+      <h1>Ordner bearbeiten</h1>
+    </div>
+    <div th:case="'categories'">
+      <h1>Kategorie bearbeiten</h1>
+    </div>
+    <div th:case="'users'">
+      <h1>Nutzer bearbeiten</h1>
+    </div>
+  </th:block>
   <form action="" method="POST">
     <label for="idId">ID</label>
       <input name = "id" id = "idId" type ="text" disabled th:value = "${entity.id}">
     <br><br>
 
-    <label for="editedName">Question</label>
+    <label for="editedName">Name</label>
     <input name="name" id="editedName" type ="text" th:value = "${entity.name}">
     <br><br>
     <br>
-    <a class="btn btn-secondary" th:href="@{/show/{userId}/{name}(userId=${userId}, name=${name})}">Abbrechen</a>
-    <a class="btn btn-danger" th:href="@{/delete/{userId}/{name}/{entityId}(userId=${userId}, name=${name}, entityId=${entity.id})}">Löschen</a>
-    <input class="btn btn-success" type="submit" value="Change">
+    <a class="btn btn-secondary" th:href="@{/show/{currUserId}/{name}(currUserId=${currUserId}, name=${name})}">Abbrechen</a>
+    <a class="btn btn-danger" th:href="@{/delete/{currUserId}/{name}/{entityId}(currUserId=${currUserId}, name=${name}, entityId=${entity.id})}">Löschen</a>
+    <input class="btn btn-success" type="submit" value="Ändern">
   </form>
 </body>
 </html>

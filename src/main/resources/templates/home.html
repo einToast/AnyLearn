@@ -2,19 +2,20 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Anylearn</title>
+    <title>AnyLearn Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
 </head>
 <body>
-  <h1>Willkommen bei Anylearn</h1>
+  <h1>Willkommen bei AnyLearn</h1><br>
+  <b>Bitte einloggen: </b>
   <form action="" method="POST">
-      <label for="user">Als Nutzer anmelden:</label>
+      <label for="user">Nutzername:</label>
       <select name="userId" id="user">
           <option value="0" >Admin</option>
           <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
           <option th:each="user: ${users}" th:value="${user.id}" th:text="${user.name}"></option>
-      </select>
+      </select><br>
       <input type="submit" value="Anmelden">
   </form>
 </body>

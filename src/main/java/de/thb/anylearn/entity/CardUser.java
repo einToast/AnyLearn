@@ -3,6 +3,7 @@ package de.thb.anylearn.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +22,11 @@ public class CardUser {
 
     @EmbeddedId
     CardUserID id;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date nextTime;
+
+    private int difficulty;
 
     @ManyToOne
     @MapsId("cardId")

@@ -15,6 +15,14 @@ import java.util.Set;
 @Entity
 public class Card {
 
+    public CardUser cardUserByUserId(int userId){
+        for(CardUser cardUser : this.getCardUsers()) {
+            if(cardUser.getUser().getId() == userId)
+                return cardUser;
+        }
+        return null;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

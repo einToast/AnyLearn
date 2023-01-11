@@ -3,7 +3,7 @@ package de.thb.anylearn.controller;
 import de.thb.anylearn.common.SupportFunctions;
 import de.thb.anylearn.controller.form.AnyLearnFormModel;
 import de.thb.anylearn.controller.form.UserFormModel;
-import de.thb.anylearn.service.DeskService;
+import de.thb.anylearn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,61 +16,61 @@ import org.springframework.web.servlet.view.RedirectView;
 public class AnyLearnShowController {
 
     @Autowired
-    private DeskService deskService;
+    private AnyLearnGetSevice getSevice;
 
     private final SupportFunctions supportFunctions = new SupportFunctions();
 
 
-    @GetMapping("show/{userId}/folder={id}/cat={categories}")
-    public String getCards(@PathVariable("userId") int userId, @PathVariable("id") int id, @PathVariable("categories") int[] categories, Model model) {
+    @GetMapping("show/{currUserId}/folder={id}/cat={categories}")
+    public String getCards(@PathVariable("currUserId") int currUserId, @PathVariable("id") int id, @PathVariable("categories") int[] categories, Model model) {
 
-        model.addAttribute("cards1", deskService.getFilteredCard(id, categories, userId));
-        model.addAttribute("folder1", deskService.getAllFolder());
-        model.addAttribute("category1", deskService.getAllCategory());
+        model.addAttribute("cards1", getSevice.getFilteredCard(id, categories, currUserId));
+        model.addAttribute("folder1", getSevice.getAllFolder());
+        model.addAttribute("category1", getSevice.getAllCategory());
         model.addAttribute("folderId", id);
         model.addAttribute("selectedCategories", categories);
-        model.addAttribute("userId", userId);
+        model.addAttribute("currUserId", currUserId);
 
         return "showCards";
     }
 
-    @PostMapping("show/{userId}/folder={id}/cat={categories}")
-    public RedirectView postCards(@PathVariable("userId") int userId, AnyLearnFormModel form) {
+    @PostMapping("show/{currUserId}/folder={id}/cat={categories}")
+    public RedirectView postCards(@PathVariable("currUserId") int currUserId, AnyLearnFormModel form) {
         String cat = supportFunctions.arrayToUrlString(form.getCategoryId());
 
-        return new RedirectView("/show/" + userId + "/folder=" + form.getFolderId() + "/cat=" + cat);
+        return new RedirectView("/show/" + currUserId + "/folder=" + form.getFolderId() + "/cat=" + cat);
     }
 
-    @PostMapping("show/{userId}")
-    public RedirectView allCardsPost(@PathVariable("userId") int userId, AnyLearnFormModel form) {
+    @PostMapping("show/{currUserId}")
+    public RedirectView allCardsPost(@PathVariable("currUserId") int currUserId, AnyLearnFormModel form) {
         String cat = supportFunctions.arrayToUrlString(form.getCategoryId());
 
-        return new RedirectView("/show/ " + userId + "/folder=" + form.getFolderId() + "/cat=" + cat);
+        return new RedirectView("/show/ " + currUserId + "/folder=" + form.getFolderId() + "/cat=" + cat);
     }
 
-    @GetMapping("show/{userId}")
-    public RedirectView allCardsGet(@PathVariable("userId") int userId) {
-        return new RedirectView("/show/" + userId + "/folder=" + 0 + "/cat=" + 0);
+    @GetMapping("show/{currUserId}")
+    public RedirectView allCardsGet(@PathVariable("currUserId") int currUserId) {
+        return new RedirectView("/show/" + currUserId + "/folder=" + 0 + "/cat=" + 0);
     }
 
-    @GetMapping("show/{userId}/users")
-    public String allUser(@PathVariable("userId") int userId, Model model) {
+    @GetMapping("show/{currUserId}/users")
+    public String allUser(@PathVariable("currUserId") int currUserId, Model model) {
         model.addAttribute("name", "Users");
-        model.addAttribute("entities", deskService.getAllUser());
+        model.addAttribute("entities", getSevice.getAllUser());
         return "showEntities";
     }
 
-    @GetMapping("show/{userId}/folders")
-    public String allFolder(@PathVariable("userId") int userId, Model model) {
+    @GetMapping("show/{currUserId}/folders")
+    public String allFolder(@PathVariable("currUserId") int currUserId, Model model) {
         model.addAttribute("name", "Folders");
-        model.addAttribute("entities", deskService.getAllFolder());
+        model.addAttribute("entities", getSevice.getAllFolder());
         return "showEntities";
     }
 
-    @GetMapping("show/{userId}/categories")
-    public String allCategories(@PathVariable("userId") int userId, Model model) {
+    @GetMapping("show/{currUserId}/categories")
+    public String allCategories(@PathVariable("currUserId") int currUserId, Model model) {
         model.addAttribute("name", "Categories");
-        model.addAttribute("entities", deskService.getAllCategory());
+        model.addAttribute("entities", getSevice.getAllCategory());
         return "showEntities";
     }
 
@@ -83,7 +83,7 @@ public class AnyLearnShowController {
     @GetMapping()
     public String startPage(Model model) {
 
-        model.addAttribute("users", deskService.getAllUser());
+        model.addAttribute("users", getSevice.getAllUser());
 
         return "home";
     }

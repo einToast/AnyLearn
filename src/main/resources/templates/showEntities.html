@@ -3,13 +3,22 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Alle Lernkarten</title>
+    <title>AnyLearn - Admin</title>
     <link th:href="@{/css/cards.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-<div layout:fragment="content">
-    <h1 th:text="${name}"></h1>
+    <th:block th:switch="${name}">
+        <div th:case="'Folders'">
+            <h1>Übersicht Ordner</h1>
+        </div>
+        <div th:case="'Categories'">
+            <h1>Übersicht Kategorie</h1>
+        </div>
+        <div th:case="'Users'">
+            <h1>Übersicht Nutzer</h1>
+        </div>
+    </th:block>
 
     <table id="test">
         <tr>
@@ -20,19 +29,18 @@
         <tr th:each="entity: ${entities}">
             <td th:text="${entity.id}"></td>
             <td th:text="${entity.name}"></td>
-            <td th:if="${userId == 0}"><a class="btn btn-warning" th:href="@{/edit/{userId}/{name}/{entityId} (userId = ${userId}, name = ${#strings.toLowerCase(name)}, entityId = ${entity.id})}">Edit</a></td>
+            <td th:if="${currUserId == 0}"><a class="btn btn-warning" th:href="@{/edit/{currUserId}/{name}/{entityId} (currUserId=${currUserId}, name = ${#strings.toLowerCase(name)}, entityId = ${entity.id})}">Edit</a></td>
         </tr>
     </table>
-</div>
 <br>
 <a class="btn btn-secondary" th:href="@{/}">Nutzer wählen</a>
-<a class="btn btn-success" th:if="${userId == 0}" th:href="@{/create/{userId}/{name}(userId=${userId}, name=${#strings.toLowerCase(name)})}">Erstellen</a>
+<a class="btn btn-success" th:if="${currUserId == 0}" th:href="@{/create/{currUserId}/{name}(currUserId=${currUserId}, name=${#strings.toLowerCase(name)})}">Erstellen</a>
 <br><br>
-<div th:if="${userId == 0}">
-    <a class="btn btn-info" th:href="@{/show/{userId}(userId=${userId})}">Karteikarten anzeigen</a>
-    <a class="btn btn-info" th:if="${name != 'Users'}" th:href="@{/show/{userId}/users(userId=${userId})}">Nutzer anzeigen</a>
-    <a class="btn btn-info" th:if="${name != 'Folders'}" th:href="@{/show/{userId}/folders(userId=${userId})}">Ordner anzeigen</a>
-    <a class="btn btn-info" th:if="${name != 'Categories'}" th:href="@{/show/{userId}/categories(userId=${userId})}">Kategorien anzeigen</a>
+<div th:if="${currUserId == 0}">
+    <a class="btn btn-info" th:href="@{/show/{currUserId}(currUserId=${currUserId})}">Karteikarten anzeigen</a>
+    <a class="btn btn-info" th:if="${name != 'Users'}" th:href="@{/show/{currUserId}/users(currUserId=${currUserId})}">Nutzer anzeigen</a>
+    <a class="btn btn-info" th:if="${name != 'Folders'}" th:href="@{/show/{currUserId}/folders(currUserId=${currUserId})}">Ordner anzeigen</a>
+    <a class="btn btn-info" th:if="${name != 'Categories'}" th:href="@{/show/{currUserId}/categories(currUserId=${currUserId})}">Kategorien anzeigen</a>
 </div>
 </body>
 </html>

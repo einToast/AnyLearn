@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Delete</title>
+  <title>AnyLearn: Sicher?</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 </head>
 <body>
@@ -38,11 +38,11 @@
     <select name="ownerId" id="users" disabled>
       <option value="0" >[Niemand]</option>
       <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
-      <option th:each="user: ${owner}" th:value="${user.id}" th:text="${user.name}"
+      <option th:each="user: ${allUser}" th:value="${user.id}" th:text="${user.name}"
               th:selected="${card.owner?.id eq user.id}"></option>
     </select>
     <br>
-    <a class="btn btn-secondary" th:href="@{/edit/{userId}/{cardId}(userId=${userId}, cardId=${card.id})}">Nein</a>
+    <a class="btn btn-secondary" th:href="@{/edit/{currUserId}/{cardId}(currUserId=${currUserId}, cardId=${card.id})}">Nein</a>
     <input class="btn btn-danger" type="submit" value="Ja">
   </form>
 </body>

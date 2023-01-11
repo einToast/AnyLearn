@@ -2,19 +2,26 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Create</title>
+  <title>AnyLearn Erstellen - Admin</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-  <h1>Create</h1>
+  <th:block th:switch="${name}">
+    <div th:case="'folders'">
+      <h1>Ordner erstellen</h1>
+    </div>
+    <div th:case="'categories'">
+      <h1>Kategorie erstellen</h1>
+    </div>
+    <div th:case="'users'">
+      <h1>Nutzer erstellen</h1>
+    </div>
+  </th:block>
   <form action="" method="POST">
-
     <label for="editedName">Name</label>
     <input name="name" id="editedName" type ="text">
-    <br><br>
-
-    <br>
-    <a class="btn btn-secondary" th:href="@{/show/{userId}/{name}(userId=${userId}, name=${name})}">Abbrechen</a>
+    <br><br><br>
+    <a class="btn btn-secondary" th:href="@{/show/{currUserId}/{name}(currUserId=${currUserId}, name=${name})}">Abbrechen</a>
     <input class="btn btn-success" type="submit" value="Erstellen">
   </form>
 </body>
