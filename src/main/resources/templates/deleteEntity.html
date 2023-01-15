@@ -9,11 +9,11 @@
   <h1 th:inline="text">Möchtest du <font color="red">[[${entity.name}]]</font> wirklich löschen?</h1>
 <!--  <h1 th:text="Möchtest du \'${entity.name}\' wirklich löschen?"></h1>-->
   <form action="" method="POST">
-    <label for="idId">ID</label>
+    <label for="idId">ID:</label>
       <input name = "id" id = "idId" type ="text" disabled th:value = "${entity.id}">
     <br><br>
 
-    <label for="editedName">Name</label>
+    <label for="editedName">Name:</label>
     <input name="name" id="editedName" type ="text" disabled th:value = "${entity.name}">
     <br><br>
 

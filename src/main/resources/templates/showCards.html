@@ -13,7 +13,7 @@
     <form action="" method="POST">
             <label for="folders">Ordner</label>
             <select name="folderId" id="folders">
-                <option value="0" >All</option>
+                <option value="0" >Alle</option>
                 <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
                 <option th:each="folder: ${folder1}" th:value="${folder.id}" th:text="${folder.name}"
                         th:selected="${folderId eq folder.id}"></option>
@@ -34,12 +34,12 @@
     <!--    </ul>-->
     <table id="test">
         <tr>
-            <th>question</th>
-            <th>answer</th>
-            <th>folder</th>
-            <th>category</th>
-            <th>owner</th>
-            <th>users</th>
+            <th>Frage</th>
+            <th>Antwort</th>
+            <th>Ordner</th>
+            <th>Kategorie</th>
+            <th>Besitzer</th>
+            <th>Nutzer</th>
             <th></th>
         </tr>
         <tr th:each="card: ${cards1}">
@@ -49,7 +49,7 @@
             <td><div th:each="cardcat: ${card.cardCategories}" th:text="${cardcat?.category.name}"></div></td>
             <td th:text="${card.owner?.name}"></td>
             <td><div th:each="carduser: ${card.cardUsers}" th:text="${carduser?.user.name}"></div></td>
-            <td><a th:if="${card.owner?.id == currUserId or currUserId == 0}" class="btn btn-warning" th:href="@{/edit/{currUserId}/cards/{cardId}(currUserId=${currUserId}, cardId =${card.id})}">Edit</a></td>
+            <td><a th:if="${card.owner?.id == currUserId or currUserId == 0}" class="btn btn-warning" th:href="@{/edit/{currUserId}/cards/{cardId}(currUserId=${currUserId}, cardId =${card.id})}">Bearbeiten</a></td>
         </tr>
     </table>
 </div>

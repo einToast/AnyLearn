@@ -18,8 +18,8 @@
     </div>
   </th:block>
   <form action="" method="POST">
-    <label for="editedName">Name</label>
-    <input name="name" id="editedName" type ="text">
+    <label for="editedName">Name:</label>
+    <input name="name" id="editedName" required type ="text">
     <br><br><br>
     <a class="btn btn-secondary" th:href="@{/show/{currUserId}/{name}(currUserId=${currUserId}, name=${name})}">Abbrechen</a>
     <input class="btn btn-success" type="submit" value="Erstellen">

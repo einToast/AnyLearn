@@ -9,27 +9,27 @@
   <h1>Lernkarte erstellen</h1>
   <form action="" method="POST">
 
-    <label for="editedQuestion">Question</label>
-    <input name="question" id="editedQuestion" type ="text">
+    <label for="editedQuestion">Frage: </label>
+    <input name="question" required id="editedQuestion" type ="text">
     <br><br>
 
-    <label for="editedAnswer">Answer</label>
+    <label for="editedAnswer">Antwort:</label>
       <input name="answer" id="editedAnswer"  type ="text">
     <br><br>
 
-    <label for="folders">Folder:</label>
+    <label for="folders">Ordner:</label>
       <select name="folderId" id="folders">
         <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
         <option th:each="folder: ${folder1}" th:value="${folder.id}" th:text="${folder.name}"></option>
       </select>
     <br><br>
 
-    <label for="category">Choose a Category:</label>
+    <label for="category">Kategorien:</label>
       <select name="categoryId" id="category" multiple="multiple">
         <option th:each="category: ${category1}" th:value="${category.id}" th:text="${category.name}"></option>
       </select>
     <br>
-    <label for="users">Owner:</label>
+    <label for="users">Besitzer:</label>
     <select name="ownerId" id="users">
       <option value="0" >[Niemand]</option>
       <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
@@ -37,7 +37,7 @@
               th:selected="${currUserId eq user.id}"></option>
     </select>
     <br>
-    <label for="user">Choose a Users, which can see and learn card:</label>
+    <label for="user">Folgende Nutzer können diese Karte lernen:</label>
     <select name="userId" id="user" multiple="multiple">
       <option th:each="user: ${allUser}" th:value="${user.id}" th:text="${user.name}"
               th:selected="${#lists.contains(sharedUsersId, user.id)}"></option>

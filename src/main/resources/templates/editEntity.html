@@ -18,12 +18,12 @@
     </div>
   </th:block>
   <form action="" method="POST">
-    <label for="idId">ID</label>
+    <label for="idId">ID:</label>
       <input name = "id" id = "idId" type ="text" disabled th:value = "${entity.id}">
     <br><br>
 
-    <label for="editedName">Name</label>
-    <input name="name" id="editedName" type ="text" th:value = "${entity.name}">
+    <label for="editedName">Name:</label>
+    <input name="name" id="editedName" required type ="text" th:value = "${entity.name}">
     <br><br>
     <br>
     <a class="btn btn-secondary" th:href="@{/show/{currUserId}/{name}(currUserId=${currUserId}, name=${name})}">Abbrechen</a>

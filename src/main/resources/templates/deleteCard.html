@@ -8,19 +8,19 @@
 <body>
   <h1>Möchtest du diese Karteikarte wirklich löschen?</h1>
   <form action="" method="POST">
-    <label for="idId">ID</label>
+    <label for="idId">ID:</label>
       <input name = "id" id = "idId" type ="text" disabled th:value = "${card.id}">
     <br><br>
 
-    <label for="editedQuestion">Question</label>
+    <label for="editedQuestion">Frage:</label>
     <input name="question" id="editedQuestion" type ="text" disabled th:value = "${card.question}">
     <br><br>
 
-    <label for="editedAnswer">Answer</label>
+    <label for="editedAnswer">Antwort:</label>
       <input name="answer" id="editedAnswer"  type ="text" disabled th:value = "${card.answer}">
     <br><br>
 
-    <label for="folders">Folder:</label>
+    <label for="folders">Ordner:</label>
       <select name="folderId"  id="folders" disabled>
         <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
         <option th:each="folder: ${folder1}" th:value="${folder.id}" th:text="${folder.name}"
@@ -28,13 +28,13 @@
       </select>
     <br><br>
 
-    <label for="category">Choose a Category:</label>
+    <label for="category">Kategorien:</label>
       <select name="categoryId" id="category" disabled multiple="multiple">
         <option th:each="category: ${category1}" th:value="${category.id}" th:text="${category.name}"
                 th:selected="${#lists.contains(selectedCategories, category.id)}"></option>
       </select>
     <br>
-    <label for="users">Owner:</label>
+    <label for="users">Besitzer:</label>
     <select name="ownerId" id="users" disabled>
       <option value="0" >[Niemand]</option>
       <!--      Schleife die durch alles durchiteriert was in folders drinnen ist-->
@@ -42,7 +42,13 @@
               th:selected="${card.owner?.id eq user.id}"></option>
     </select>
     <br>
-    <a class="btn btn-secondary" th:href="@{/edit/{currUserId}/{cardId}(currUserId=${currUserId}, cardId=${card.id})}">Nein</a>
+    <label for="user">Folgende Nutzer können diese Karte lernen:</label>
+    <select name="userId" id="user" disabled multiple="multiple">
+      <option th:each="user: ${allUser}" th:value="${user.id}" th:text="${user.name}"
+              th:selected="${#lists.contains(sharedUsersId, user.id)}"></option>
+    </select>
+    <br>
+    <a class="btn btn-secondary" th:href="@{/edit/{currUserId}/cards/{cardId}(currUserId=${currUserId}, cardId=${card.id})}">Nein</a>
     <input class="btn btn-danger" type="submit" value="Ja">
   </form>
 </body>
