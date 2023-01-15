@@ -1,8 +1,8 @@
 package de.thb.anylearn.controller;
 
 import de.thb.anylearn.common.SupportFunctions;
-import de.thb.anylearn.controller.form.AnyLearnFormModel;
-import de.thb.anylearn.controller.form.UserFormModel;
+import de.thb.anylearn.controller.form.FilterFormModel;
+import de.thb.anylearn.controller.form.LoginFormModel;
 import de.thb.anylearn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,14 +35,14 @@ public class AnyLearnShowController {
     }
 
     @PostMapping("show/{currUserId}/folder={id}/cat={categories}")
-    public RedirectView postCards(@PathVariable("currUserId") int currUserId, AnyLearnFormModel form) {
+    public RedirectView postCards(@PathVariable("currUserId") int currUserId, FilterFormModel form) {
         String cat = supportFunctions.arrayToUrlString(form.getCategoryId());
 
         return new RedirectView("/show/" + currUserId + "/folder=" + form.getFolderId() + "/cat=" + cat);
     }
 
     @PostMapping("show/{currUserId}")
-    public RedirectView allCardsPost(@PathVariable("currUserId") int currUserId, AnyLearnFormModel form) {
+    public RedirectView allCardsPost(@PathVariable("currUserId") int currUserId, FilterFormModel form) {
         String cat = supportFunctions.arrayToUrlString(form.getCategoryId());
 
         return new RedirectView("/show/ " + currUserId + "/folder=" + form.getFolderId() + "/cat=" + cat);
@@ -75,7 +75,7 @@ public class AnyLearnShowController {
     }
 
     @PostMapping()
-    public RedirectView startPagePost(UserFormModel form) {
+    public RedirectView startPagePost(LoginFormModel form) {
 
         return new RedirectView("/show/" + form.getUserId());
     }

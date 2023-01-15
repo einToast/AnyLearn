@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserFormModel {
+public class FilterFormModel {
 
-    private int userId;
+    private int folderId = 0;
+    private int[] categoryId;
 }

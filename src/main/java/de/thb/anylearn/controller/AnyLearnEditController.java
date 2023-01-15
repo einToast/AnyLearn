@@ -16,9 +16,6 @@ import org.springframework.web.servlet.view.RedirectView;
 public class AnyLearnEditController {
 
     @Autowired
-    private AnyLearnDeleteSevice deleteSevice;
-
-    @Autowired
     private AnyLearnGetSevice getSevice;
 
     @Autowired

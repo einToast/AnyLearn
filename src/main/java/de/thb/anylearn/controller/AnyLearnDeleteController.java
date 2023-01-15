@@ -23,9 +23,6 @@ public class AnyLearnDeleteController {
     @Autowired
     private AnyLearnGetSevice getSevice;
 
-    @Autowired
-    private AnyLearnUpdateSevice updateSevice;
-
     @GetMapping("delete/{currUserId}/cards/{id}")
     public String deleteCard(@PathVariable("currUserId") int currUserId, @PathVariable("id") int id, Model model) {
 

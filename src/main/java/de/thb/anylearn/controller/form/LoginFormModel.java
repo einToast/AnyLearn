@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AnyLearnFormModel {
+public class LoginFormModel {
 
-    private int folderId = 0;
-    private int[] categoryId;
+    private int userId;
 }
