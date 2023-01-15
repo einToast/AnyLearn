@@ -55,7 +55,7 @@
 </div>
 <br>
 <a class="btn btn-secondary" th:href="@{/}">Nutzer wählen</a>
-<a class="btn btn-primary" th:href="@{/learn/{currUserId}/folder={folder}/cat={categories}(currUserId=${currUserId}, folder=${folderId}, categories=${selectedCategories})}">Diese Karten jetzt lernen</a>
+<a class="btn btn-primary" th:if="${currUserId != 0}" th:href="@{/learn/{currUserId}/folder={folder}/cat={categories}(currUserId=${currUserId}, folder=${folderId}, categories=${selectedCategories})}">Diese Karten jetzt lernen</a>
 <a class="btn btn-success" th:href="@{/create/{currUserId}/card(currUserId=${currUserId})}">Neue Karte hinzufügen</a>
 <div th:if="${currUserId == 0}">
     <br><br>

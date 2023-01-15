@@ -20,4 +20,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<CardUser> cardUsers;
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    private List<Card> cards;
 }
+

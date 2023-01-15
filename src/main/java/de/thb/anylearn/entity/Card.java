@@ -31,11 +31,6 @@ public class Card {
 
     private String answer;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date nextTime;
-
-    private int difficulty;
-
     @ManyToOne
     private Folder folder;
 
