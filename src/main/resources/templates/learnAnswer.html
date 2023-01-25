@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>AnyLearn lernen</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+
+</head>
+<body>
+<p th:text="${card.question}"></p>
+
+<p th:text="${card.answer}"></p>
+
+<form th:action="@{/learn/{currUserId}/folder={folder}/cat={categories}/card={card}/0(currUserId=${currUserId}, folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
+    <button class="btn btn-danger" type="submit">Falsch, nochmal.</button>
+</form>
+<form th:action="@{/learn/{currUserId}/folder={folder}/cat={categories}/card={card}/1(currUserId=${currUserId}, folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
+    <button class="btn btn-warning" type="submit">Richtig, schwer.</button>
+</form>
+<form th:action="@{/learn/{currUserId}/folder={folder}/cat={categories}/card={card}/2(currUserId=${currUserId}, folder=${folderId}, categories=${selectedCategories}, card=${cardId})}">
+    <button class="btn btn-success" type="submit">Richtig, leicht.</button>
+</form>
+
+<a class="btn btn-secondary" th:href="@{/show/{currUserId}/folder=0/cat=0(currUserId=${currUserId})}">Übersicht</a>
+</body>
+</html>

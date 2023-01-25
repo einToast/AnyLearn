@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AnyLearn lernen</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+</head>
+<body>
+<p th:text="${card.question}"></p>
+
+<form action="" method="POST"><input class="btn btn-primary" type="submit" value="Antwort anzeigen"></form>
+
+<a class="btn btn-secondary" th:href="@{/show/{currUserId}/folder=0/cat=0(currUserId=${currUserId})}">Übersicht</a>
+</body>
+</html>

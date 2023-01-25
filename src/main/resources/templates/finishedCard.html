@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>AnyLearn Gespeichert</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+</head>
+<body>
+<h1>Erfolgreich <span th:text="${mode}"></span></h1>
+<p> Du hast erfolgreich die Karteikarte <span th:text="${mode}"></span>.</p>
+<a class="btn btn-primary" th:href="@{/show/{currUserId}/folder=0/cat=0(currUserId=${currUserId})}">Übersicht</a>
+</body>
+</html>

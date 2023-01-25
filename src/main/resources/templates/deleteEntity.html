@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>AnyLearn: Sicher? - Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <h1 th:inline="text">Möchtest du <font color="red">[[${entity.name}]]</font> wirklich löschen?</h1>
+<!--  <h1 th:text="Möchtest du \'${entity.name}\' wirklich löschen?"></h1>-->
+  <form action="" method="POST">
+    <label for="idId">ID:</label>
+      <input name = "id" id = "idId" type ="text" disabled th:value = "${entity.id}">
+    <br><br>
+
+    <label for="editedName">Name:</label>
+    <input name="name" id="editedName" type ="text" disabled th:value = "${entity.name}">
+    <br><br>
+
+    <br>
+    <a class="btn btn-secondary" th:href="@{/edit/{currUserId}/{name}/{entityId}(currUserId=${currUserId}, name = ${name}, entityId=${entity.id})}">Nein</a>
+    <input class="btn btn-danger" type="submit" value="Ja">
+  </form>
+</body>
+</html>
